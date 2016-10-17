@@ -30,8 +30,10 @@
   "author": "Max Krieg",
   "dependencies": {
     "babel-polyfill": "6.3.14",
+    "css-loader": "0.25.0",
     "lodash": "4.0.0",
     "node-libs-browser": "1.0.0",
+    "postcss-loader": "1.0.0",
     "promise": "7.1.1",
     "react": "0.14.6",
     "react-dom": "0.14.6",
@@ -43,6 +45,7 @@
     "redux-logger": "2.4.0",
     "redux-promise": "0.5.1",
     "redux-thunk": "1.0.3",
+    "style-loader": "0.13.1",
     "superagent-promise": "1.1.0",
     "webpack": "1.12.12",
     "whatwg-fetch": "0.11.0"

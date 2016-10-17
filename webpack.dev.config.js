@@ -41,7 +41,8 @@ config = update(config, {
       new HtmlWebpackPlugin({
         inject: true,
         filename: 'dev/index.html',
-        template: 'client/views/index.tpl'
+        template: 'client/views/index.tpl',
+        title: 'trail spotter'
       }),
       new ExportFilesWebpackPlugin('dev/index.html')
     ]

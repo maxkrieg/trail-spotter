@@ -11,11 +11,11 @@ import thunk from 'redux-thunk';
 import createLogger from 'redux-logger';
 import promise from 'redux-promise';
 
-
+const logger = createLogger()
 const createStoreWithMiddleware = applyMiddleware(
   thunk,
   promise,
-  createLogger()
+  logger
 )(createStore);
 const store = createStoreWithMiddleware(reducers);
 
