@@ -1,0 +1,27 @@
+.main {
+  border: 1px solid black;
+}
+
+.header {
+  padding: 10px 0;
+  text-align: center;
+}
+
+.footer {
+  padding: 10px 0;
+  text-align: center;
+}
+
+.heading {
+  margin: 0;
+}
+
+.input {
+  height: 20px;
+  width: 300px;
+  display: block;
+}
+
+.map {
+  height: 300px;
+}
