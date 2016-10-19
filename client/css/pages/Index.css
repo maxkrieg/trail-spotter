@@ -1,5 +1,6 @@
 .main {
   border: 1px solid black;
+  margin: 0 20px;
 }
 
 .header {
@@ -20,8 +21,4 @@
   height: 20px;
   width: 300px;
   display: block;
-}
-
-.map {
-  height: 300px;
 }

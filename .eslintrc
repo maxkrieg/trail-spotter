@@ -31,7 +31,7 @@
     "react/react-in-jsx-scope": 2,
     "react/self-closing-comp": 1,
     "react/wrap-multilines": 1,
- 
+
     "generator-star-spacing": 0,
     "new-cap": 0,
     "object-curly-spacing": 0,
@@ -53,5 +53,8 @@
   "env": {
     "browser": true,
     "node": true
+  },
+  "globals": {
+    "google": false
   }
 }
