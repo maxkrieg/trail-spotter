@@ -8,16 +8,14 @@ class Index extends Component {
   render() {
     return (
       <div className={styles.main}>
-        <header className={styles.header}>Header</header>
-        <div>
-          <h2 className={styles.heading}>Search</h2>
+        <header className={styles.header}>trail spotter</header>
+        <div className={styles.mapSearchContainer}>
           <input
             className={styles.input}
             type='text'
-            placeholder='Search here'/>
+            placeholder='Find a trail'/>
           <Map />
         </div>
-        <footer className={styles.footer}>Footer</footer>
       </div>
     );
   }

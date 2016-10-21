@@ -7,6 +7,7 @@ class Map extends Component {
     super(props)
     this.map = null
     this.initMap = initMap.bind(this)
+    this.addMarker = addMarker.bind(this)
   }
 
   componentDidMount() {
@@ -26,26 +27,20 @@ function initMap() {
   const mapOptions = {
     center: everest,
     zoom: 10,
+    mapTypeId: 'terrain',
   }
   this.map = new google.maps.Map(this.mapEl, mapOptions);
 
-  // This event listener calls addMarker() when the map is clicked.
-  google.maps.event.addListener(this.map, 'dblclick', (event) => {
-    addMarker(event.latLng, this.map);
+  google.maps.event.addListener(this.map, 'click', (event) => {
+    this.addMarker(event.latLng);
   });
 
-  // Add a marker at the center of the map.
-  addMarker(everest, this.map);
+  this.addMarker(everest);
 }
 
-// Adds a marker to the map.
-function addMarker(location, map) {
-  // Add the marker at the clicked location, and add the next-available label
-  // from the array of alphabetical characters.
-  const marker = new google.maps.Marker({
-    position: location,
-    map
-  });
+function addMarker(position) {
+  const map = this.map
+  const marker = new google.maps.Marker({ position, map });
 }
 
 export default Map
