@@ -9,7 +9,7 @@
   </head>
   <body>
     <div class="root" id="root"></div>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhwQzoWIXgTNmjrSLmfyZDl_m7KbqeLgU"
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhwQzoWIXgTNmjrSLmfyZDl_m7KbqeLgU&libraries=geometry,places,drawing"
   async defer></script>
   </body>
 </html>

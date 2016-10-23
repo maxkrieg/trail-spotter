@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import styles from '../css/components/Map.css'
+import { setMap, addMarker } from '../actions/map'
 
 
 class Map extends Component {
   constructor(props) {
     super(props)
-    this.map = null
     this.initMap = initMap.bind(this)
-    this.addMarker = addMarker.bind(this)
   }
 
   componentDidMount() {
@@ -29,18 +29,24 @@ function initMap() {
     zoom: 10,
     mapTypeId: 'terrain',
   }
-  this.map = new google.maps.Map(this.mapEl, mapOptions);
+  const map = new google.maps.Map(this.mapEl, mapOptions);
 
-  google.maps.event.addListener(this.map, 'click', (event) => {
-    this.addMarker(event.latLng);
-  });
+  this.props.setMap(map)
 
-  this.addMarker(everest);
+  google.maps.event.addListener(map, 'click', (event) => {
+    console.log(event.latLng.lat(), event.latLng.lng())
+    this.props.addMarker(event.latLng)
+  })
+
+  this.props.addMarker(everest);
 }
 
-function addMarker(position) {
-  const map = this.map
-  const marker = new google.maps.Marker({ position, map });
-}
+const mapStateToProps = (state) => ({
+  map: state.map
+})
 
-export default Map
+const mapActionsToProps = {
+  setMap,
+  addMarker
+}
+export default connect(mapStateToProps, mapActionsToProps)(Map);
