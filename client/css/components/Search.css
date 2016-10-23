@@ -1,0 +1,15 @@
+.main {
+
+}
+
+.input {
+  height: 24px;
+  width: 325px;
+  display: block;
+  margin: 5px 0;
+  padding: 4px 8px 1px 8px;
+  border: none;
+  border: 1px solid #000000;
+  background-color: rgba(211, 211, 211, 0.2);;
+  border-radius: 3px;
+}

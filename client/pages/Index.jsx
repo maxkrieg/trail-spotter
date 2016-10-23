@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { requestKittens } from '../actions/kittens';
 import Map from '../components/Map'
+import Search from '../components/Search'
 import styles from '../css/pages/Index.css'
 
 class Index extends Component {
@@ -10,10 +11,7 @@ class Index extends Component {
       <div className={styles.main}>
         <header className={styles.header}>trail spotter</header>
         <div className={styles.mapSearchContainer}>
-          <input
-            className={styles.input}
-            type='text'
-            placeholder='Find a trail'/>
+          <Search />
           <Map />
         </div>
       </div>
