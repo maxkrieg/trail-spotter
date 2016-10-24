@@ -1,0 +1,1 @@
+export const SET_SEARCH_BOX = 'SET_SEARCH_BOX'

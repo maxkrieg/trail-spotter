@@ -1,4 +1,4 @@
-import { SET_MAP, ADD_MARKER } from '../actionTypes/map'
+import { SET_MAP, SET_MARKER } from '../actionTypes/map'
 
 export function setMap(map) {
   return {
@@ -7,9 +7,9 @@ export function setMap(map) {
   }
 }
 
-export function addMarker(position) {
+export function setMarker(position) {
   return {
-    type: ADD_MARKER,
+    type: SET_MARKER,
     payload: position
   }
 }

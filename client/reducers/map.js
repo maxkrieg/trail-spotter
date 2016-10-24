@@ -1,8 +1,8 @@
-import { SET_MAP, ADD_MARKER } from '../actionTypes/map'
+import { SET_MAP, SET_MARKER } from '../actionTypes/map'
 
 const DEFAULT_STATE = {
   map: null,
-  markers: []
+  marker: null
 }
 
 export default function(state = DEFAULT_STATE, action) {
@@ -12,18 +12,16 @@ export default function(state = DEFAULT_STATE, action) {
       ...state,
       map: action.payload
     }
-  case ADD_MARKER:
-    const position = action.payload
-    const marker = new google.maps.Marker({
-      position,
-      draggable: true,
-      map: state.map
-    })
-    console.log(marker.position.lat())
-    return {
-      ...state,
-      markers: [...state.markers, marker]
+  case SET_MARKER:
+    if (state.marker) {
+      state.marker.setMap(null)
     }
+    const marker = new google.maps.Marker({
+      map: state.map,
+      position: action.payload,
+      draggable: true
+    })
+    return { ...state, marker }
   default:
     return state
   }

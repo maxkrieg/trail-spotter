@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import styles from '../css/components/Search.css'
+import { setSearchBox } from '../actions/search'
 
 class Search extends Component {
   constructor(props) {
     super(props)
-    this.googleSearchBox = null
     this.initSearchBox = initSearchBox.bind(this)
   }
 
@@ -35,7 +36,16 @@ function initSearchBox() {
     new google.maps.LatLng(25.506170, -80.518336)
   );
 
-  this.googleSearchBox = new google.maps.places.SearchBox(this.inputEl, { bounds });
+  const searchBox = new google.maps.places.SearchBox(this.inputEl, { bounds });
+  this.props.setSearchBox(searchBox)
 }
 
-export default Search
+const mapStateToProps = (state) => ({
+  searchBox: state.searchBox
+})
+
+const mapActionsToProps = {
+  setSearchBox
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(Search)

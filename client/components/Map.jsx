@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import styles from '../css/components/Map.css'
-import { setMap, addMarker } from '../actions/map'
+import { setMap, setMarker } from '../actions/map'
 
 
 class Map extends Component {
@@ -30,15 +30,16 @@ function initMap() {
     mapTypeId: 'terrain',
   }
   const map = new google.maps.Map(this.mapEl, mapOptions);
+  // map.setCenter(new google.maps.LatLng(27.9878, 86.9250));
 
   this.props.setMap(map)
 
   google.maps.event.addListener(map, 'click', (event) => {
     console.log(event.latLng.lat(), event.latLng.lng())
-    this.props.addMarker(event.latLng)
+    this.props.setMarker(event.latLng)
   })
 
-  this.props.addMarker(everest);
+  this.props.setMarker(everest);
 }
 
 const mapStateToProps = (state) => ({
@@ -47,6 +48,6 @@ const mapStateToProps = (state) => ({
 
 const mapActionsToProps = {
   setMap,
-  addMarker
+  setMarker
 }
-export default connect(mapStateToProps, mapActionsToProps)(Map);
+export default connect(mapStateToProps, mapActionsToProps)(Map)
