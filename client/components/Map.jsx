@@ -30,12 +30,9 @@ function initMap() {
     mapTypeId: 'terrain',
   }
   const map = new google.maps.Map(this.mapEl, mapOptions);
-  // map.setCenter(new google.maps.LatLng(27.9878, 86.9250));
-
   this.props.setMap(map)
 
   google.maps.event.addListener(map, 'click', (event) => {
-    console.log(event.latLng.lat(), event.latLng.lng())
     this.props.setMarker(event.latLng)
   })
 
