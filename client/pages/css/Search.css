@@ -1,5 +1,6 @@
 .main {
-  border: 1px solid black;
+  background: rgba(60, 100, 60, 0.1);
+  height: 100%;
 }
 
 .header {

@@ -3,7 +3,7 @@ import 'babel-polyfill';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Index from './pages/Index';
+import Search from './pages/Search';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import reducers from './reducers';
@@ -21,7 +21,7 @@ const store = createStoreWithMiddleware(reducers);
 
 ReactDOM.render(
   <Provider store={store}>
-    <Index />
+    <Search />
   </Provider>,
   document.getElementById('root')
 );

@@ -7,8 +7,8 @@
     <title><%= htmlWebpackPlugin.options.title || 'trail spotter' %></title>
 
   </head>
-  <body>
-    <div class="root" id="root"></div>
+  <body style="height:100vh;">
+    <div class="root" id="root" style="height:100%;"></div>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhwQzoWIXgTNmjrSLmfyZDl_m7KbqeLgU&libraries=geometry,places,drawing"
   async defer></script>
   </body>
