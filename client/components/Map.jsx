@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
+import AddTrailModal from './AddTrailModal'
 import styles from './css/Map.css'
-
 
 
 class Map extends Component {
@@ -10,7 +10,8 @@ class Map extends Component {
     this.state = {
       map: null,
       marker: null,
-      searchBox: null
+      searchBox: null,
+      isModalOpen: false
     }
   }
 
@@ -95,7 +96,21 @@ class Map extends Component {
     this.state.map.setZoom(zoom)
   }
 
+  closeModal = () => {
+    this.setState({ isModalOpen: false })
+  }
+
+  openModal = () => {
+    this.setState({ isModalOpen: true })
+  }
+
+  getMarkerLatLng() {
+    const { marker } = this.state
+    return marker && marker.getPosition().toJSON()
+  }
+
   render() {
+    const markerLatLng = this.getMarkerLatLng()
     return (
       <div>
         <input
@@ -104,6 +119,8 @@ class Map extends Component {
           type='text'
           placeholder='Find a trail'>
         </input>
+        <button onClick={this.openModal}>Add to my trails</button>
+        {this.state.isModalOpen && <AddTrailModal markerLatLng={markerLatLng} closeModal={this.closeModal}/>}
         <div className={styles.map} ref={mapNode => { this.mapEl = mapNode; }}></div>
       </div>
     )
