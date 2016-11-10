@@ -4,7 +4,8 @@ import styles from './css/AddTrailModal.css'
 
 const propTypes = {
   markerLatLng: PropTypes.object,
-  closeModal: PropTypes.func
+  closeModal: PropTypes.func,
+  addTrail: PropTypes.func
 }
 
 class AddTrailModal extends Component {
@@ -22,9 +23,9 @@ class AddTrailModal extends Component {
             placeholder='Description...'
           >
           </textarea>
-          <div>{this.props.markerLatLng}</div>
+          <div>{JSON.stringify(this.props.markerLatLng)}</div>
           <div>Map goes here</div>
-          <button>Save</button>
+          <button onClick={this.props.addTrail}>Save</button>
         </div>
       </div>
     )

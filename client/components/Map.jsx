@@ -1,5 +1,7 @@
+import { connect } from 'react-redux'
 import React, { Component, PropTypes } from 'react'
 import AddTrailModal from './AddTrailModal'
+import { addTrail } from '../actions'
 import styles from './css/Map.css'
 
 
@@ -104,6 +106,11 @@ class Map extends Component {
     this.setState({ isModalOpen: true })
   }
 
+  handleAddTrail = () => {
+    const markerLatLng = this.getMarkerLatLng()
+    this.props.addTrail(markerLatLng)
+  }
+
   getMarkerLatLng() {
     const { marker } = this.state
     return marker && marker.getPosition().toJSON()
@@ -120,11 +127,21 @@ class Map extends Component {
           placeholder='Find a trail'>
         </input>
         <button onClick={this.openModal}>Add to my trails</button>
-        {this.state.isModalOpen && <AddTrailModal markerLatLng={markerLatLng} closeModal={this.closeModal}/>}
+        {this.state.isModalOpen &&
+          <AddTrailModal
+            markerLatLng={markerLatLng}
+            closeModal={this.closeModal}
+            addTrail={this.handleAddTrail}
+          />}
         <div className={styles.map} ref={mapNode => { this.mapEl = mapNode; }}></div>
       </div>
     )
   }
 }
 
-export default Map
+const mapStateToProps = () => ({})
+const mapActionsToProps = {
+  addTrail
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(Map)
