@@ -10,9 +10,74 @@
 }
 
 .content {
-  height: 400px;
-  width: 650px;
-  padding: 20px;
+  width: 600px;
+  padding: 35px;
   background: #FFFFFF;
   margin: 50px auto;
+  position: relative;
+}
+
+.xButton {
+  position: absolute;
+  font-size: 22px;
+  font-weight: 500;
+  top: 4px;
+  right: 10px;
+  background: none;
+  border: none;
+}
+
+.title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.form {
+  margin: 25px 0;
+}
+
+.titleInput {
+  display: block;
+  width: 50%;
+  margin-bottom: 10px;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 20px 0 10px;
+  font-size: 14px;
+  border: 1px solid #363636;
+  background: transparent;
+  box-shadow: none;
+  outline: none;
+  border-radius: 2px;
+}
+
+.descriptionInput {
+  display: block;
+  width: 80%;
+  height: 80px;
+  font-size: 14px;
+  background: transparent;
+  border: 1px solid #363636;
+  padding: 10px;
+  border-radius: 2px;
+}
+
+.buttonContainer {
+  margin-top: 16px;
+}
+
+.buttonContainer button:first-child {
+  margin-right: 6px;
+}
+
+.submitButton {
+  font-size: 16px;
+}
+
+.cancelButton {
+  background: none;
+  border: none;
+  font-size: 14px;
 }

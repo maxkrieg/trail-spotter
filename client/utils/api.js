@@ -1,17 +1,15 @@
 import 'whatwg-fetch';
 
-
-
 async function request({ url, data, params = {} }) {
   try {
     const response = await fetch(url, {
       credentials: 'include',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: data ? ((data instanceof FormData) ? data : JSON.stringify(data)) : undefined,
-      ...params
+      ...params,
     })
     const contentType = response.headers.get('content-type');
 
@@ -25,9 +23,8 @@ async function request({ url, data, params = {} }) {
       return await response.json();
     }
   } catch (err) {
-    console.error(err); // eslint-disable-line no-console
-    window.alert(JSON.stringify(await err.response.json()));
-    throw  err;
+    console.error(await err.response.json())
+    throw err
   }
 }
 

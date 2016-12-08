@@ -1,10 +1,10 @@
-import { get, post, del } from '../utils/api'
+import { post } from '../utils/api'
 
 export function addTrail(data) {
   console.log(data)
   return async dispatch => {
     dispatch({
-      type: 'ADD_TRAIL'
+      type: 'ADD_TRAIL',
     })
 
     try {
@@ -12,11 +12,11 @@ export function addTrail(data) {
 
       dispatch({
         type: 'ADD_TRAIL_SUCCESS',
-        payload: result
+        payload: result,
       })
-    } catch(e) {
+    } catch (e) {
       dispatch({
-        type: 'ADD_TRAIL_ERROR'
+        type: 'ADD_TRAIL_ERROR',
       })
     }
   }

@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import kittens from './kittens';
 
 const reducers = combineReducers({
-  kittens
+  kittens,
 });
 
 export default reducers;

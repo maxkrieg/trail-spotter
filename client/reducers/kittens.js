@@ -4,12 +4,12 @@ const DEFAULT_STATE = [];
 
 const addKitten = (state, action) => ([
   ...state,
-  action.kitten
+  action.kitten,
 ]);
 
 const requestKittens = (state, action) => ([
   ...state,
-  ...action.kittens
+  ...action.kittens,
 ]);
 
 const deleteKitten = (state, action) => (
@@ -21,6 +21,6 @@ export default function kittens(state = DEFAULT_STATE, action) {
   return ({
     [actionTypes.ADD_KITTEN_SUCCESS]: addKitten,
     [actionTypes.REQUEST_KITTENS_SUCCESS]: requestKittens,
-    [actionTypes.DELETE_KITTEN_SUCCESS]: deleteKitten
+    [actionTypes.DELETE_KITTEN_SUCCESS]: deleteKitten,
   }[action.type] || (s => s))(state, action);
 }

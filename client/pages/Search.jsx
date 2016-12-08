@@ -7,7 +7,7 @@ class Search extends Component {
     super(props)
     this.state = {
       map: null,
-      marker: null
+      marker: null,
     }
   }
 
@@ -16,7 +16,7 @@ class Search extends Component {
       <div className={styles.main}>
         <header className={styles.header}>trail spotter</header>
         <div className={styles.mapSearchContainer}>
-          <Map/>
+          <Map />
         </div>
       </div>
     )
