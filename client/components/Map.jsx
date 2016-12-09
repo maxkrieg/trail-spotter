@@ -10,10 +10,9 @@ import GoogleMarker from '../utils/google/marker'
 
 class Map extends Component {
   componentDidMount() {
-    const marker = new GoogleMarker()
-    const map = new GoogleMap(this.mapEl, marker.setPosition)
-    map.initMap()
-    marker.setMap(map)
+    this.map = new GoogleMap(this.mapEl)
+    this.marker = new GoogleMarker(this.map.getMap())
+    this.map.addListener('click', this.marker.setPosition)
   }
 
   render() {

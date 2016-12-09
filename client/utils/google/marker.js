@@ -1,6 +1,6 @@
 class GoogleMarker {
-  constructor() {
-    this.map = null
+  constructor(map) {
+    this.map = map
     this.marker = null
   }
 
@@ -8,8 +8,10 @@ class GoogleMarker {
     this.map = map
   }
 
-  setPosition(position) {
-    console.log('set marker position', this)
+  setPosition = (event) => {
+    console.log('set position', this)
+    const position = event.latLng
+
     if (this.marker) {
       this.marker.setMap(null)
     }
@@ -21,8 +23,8 @@ class GoogleMarker {
       clickable: true,
     })
 
-    google.maps.event.addListener(marker, 'dragend', (event) => {
-      this.setPosition(event)
+    google.maps.event.addListener(marker, 'dragend', (e) => {
+      this.setPosition(e)
     })
 
     this.marker = marker

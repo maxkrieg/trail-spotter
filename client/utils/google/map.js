@@ -3,28 +3,22 @@ class GoogleMap {
     this.element = element
     this.setMarker = setMarker
     this.map = null
+    this.initMap(element)
   }
 
-  initMap() {
+  initMap(element) {
     const everest = { lat: 27.9878, lng: 86.9250 };
-    const map = new google.maps.Map(this.element, {
+    const map = new google.maps.Map(element, {
       center: everest,
       zoom: 10,
       mapTypeId: 'terrain',
     })
 
-    google.maps.event.addListener(map, 'click', (event) => {
-      console.log('handle map click')
-      this.setMarker(event.latLng)
-    })
-
     this.setMap(map)
   }
 
-  addListeners(listeners) {
-    listeners.forEach(({ event, callback }) => {
-      google.maps.event.addListener(this.map, event, callback)
-    })
+  addListener(event, callback) {
+    google.maps.event.addListener(this.map, event, callback)
   }
 
   getMap() {
