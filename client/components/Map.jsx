@@ -6,23 +6,68 @@ import styles from './css/Map.css'
 
 import GoogleMap from '../utils/google/map'
 import GoogleMarker from '../utils/google/marker'
+import GoogleSearchBox from '../utils/google/searchBox'
 
 
 class Map extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      map: null,
+      marker: null,
+      searchBox: null,
+      isModalOpen: false,
+    }
+  }
+
   componentDidMount() {
-    this.map = new GoogleMap(this.mapEl)
-    this.marker = new GoogleMarker(this.map.getMap())
-    this.map.addListener('click', this.marker.setPosition)
+    // Initialize Google stuff
+    const googleMap = new GoogleMap(this.mapEl)
+    const googleMarker = new GoogleMarker(googleMap.map)
+    const googleSearchBox = new GoogleSearchBox(this.searchEl)
+
+    // Add desired listeners
+    googleMap.addListener('click', (e) => {
+      googleMarker.position = e.latLng
+    })
+    googleMarker.addListener('position_changed', (e) => {
+      console.log('position changed', googleMarker.position)
+    })
+    googleSearchBox.addListener('places_changed', (e) => {
+      const position = googleSearchBox.position
+      googleMarker.position = position
+      googleMap.center = position
+      googleMap.zoom = 12
+    })
+
+    this.setState({
+      map: googleMap,
+      marker: googleMarker,
+      searchBox: googleSearchBox,
+    })
+  }
+
+  openModal = () => {
+    if (this.state.marker.position) {
+      this.setState({ isModalOpen: true })
+    }
+  }
+
+  closeModal = () => {
+    this.setState({ isModalOpen: false })
+  }
+
+  handleAddTrail = () => {
+    this.props.addTrail(this.state.marker.position)
   }
 
   render() {
-    // const markerLatLng = this.getMarkerLatLng()
     return (
       <div>
-        {/* <div>
+        <div>
           <input
             className={styles.input}
-            ref={inputNode => { this.inputEl = inputNode; }}
+            ref={(search) => { this.searchEl = search }}
             type="text"
             placeholder="Find a trail"
           />
@@ -32,12 +77,12 @@ class Map extends Component {
         </div>
         {this.state.isModalOpen &&
           <AddTrailModal
-            markerLatLng={markerLatLng}
+            markerLatLng={this.state.marker.position}
             closeModal={this.closeModal}
             addTrail={this.handleAddTrail}
-            placeTitle={this.inputEl.value || ''}
-          />} */}
-        <div className={styles.map} ref={mapNode => { this.mapEl = mapNode; }} />
+            placeTitle={this.searchEl.value || ''}
+          />}
+        <div className={styles.map} ref={(map) => { this.mapEl = map }} />
       </div>
     )
   }
@@ -49,116 +94,3 @@ const mapActionsToProps = {
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(Map)
-
-
-// constructor(props) {
-//   super(props)
-//   this.state = {
-//     map: null,
-//     marker: null,
-//     searchValue: '',
-//     searchBox: null,
-//     isModalOpen: false,
-//   }
-// }
-//
-// componentDidMount() {
-//   this.initSearchBox()
-//   this.initMap()
-//   this.inputEl.focus()
-// }
-//
-// getMarkerLatLng() {
-//   const { marker } = this.state
-//   return marker && marker.getPosition().toJSON()
-// }
-//
-// setMapZoom = (zoom) => {
-//   this.state.map.setZoom(zoom)
-// }
-//
-// setMapCenter = (position) => {
-//   this.state.map.setCenter(position)
-// }
-//
-// setMarker = (position) => {
-//   if (this.state.marker) {
-//     this.state.marker.setMap(null)
-//   }
-//
-//   const marker = new google.maps.Marker({
-//     map: this.state.map,
-//     position,
-//     draggable: true,
-//     clickable: true,
-//   })
-//
-//   google.maps.event.addListener(marker, 'dragend', (event) => {
-//     this.handleMapDrag(event)
-//   })
-//
-//   this.setState({ marker })
-// }
-//
-// initSearchBox = () => {
-//   const bounds = new google.maps.LatLngBounds(
-//     new google.maps.LatLng(44.913693, -67.579621),
-//     new google.maps.LatLng(32.655332, -117.549211),
-//     new google.maps.LatLng(47.985760, -124.842826),
-//     new google.maps.LatLng(25.506170, -80.518336),
-//   );
-//
-//   const searchBox = new google.maps.places.SearchBox(this.inputEl, { bounds })
-//
-//   searchBox.addListener('places_changed', () => {
-//     this.handleSearchBoxChange()
-//   })
-//
-//   this.setState({ searchBox })
-// }
-//
-// // initMap = () => {
-// //   const everest = { lat: 27.9878, lng: 86.9250 };
-// //   const map = new google.maps.Map(this.mapEl, {
-// //     center: everest,
-// //     zoom: 10,
-// //     mapTypeId: 'terrain',
-// //   })
-// //
-// //   google.maps.event.addListener(map, 'click', (event) => {
-// //     this.handleMapDrag(event)
-// //   })
-// //
-// //   this.setState({ map })
-// // }
-//
-// handleSearchBoxChange = () => {
-//   const places = this.state.searchBox.getPlaces()
-//   if (places.length === 0) return
-//
-//   const place = places[0]
-//   const position = place.geometry.location
-//
-//   this.setMarker(position)
-//   this.setMapCenter(position)
-//   this.setMapZoom(12)
-// }
-//
-// handleMapDrag = (event) => {
-//   this.setMarker(event.latLng)
-// }
-//
-// closeModal = () => {
-//   this.setState({ isModalOpen: false })
-// }
-//
-// openModal = () => {
-//   if (this.state.marker) {
-//     this.setState({ isModalOpen: true })
-//   }
-// }
-//
-// handleAddTrail = () => {
-//   const markerLatLng = this.getMarkerLatLng()
-//   this.props.addTrail(markerLatLng)
-// }

@@ -1,33 +1,51 @@
 class GoogleMap {
-  constructor(element, setMarker) {
-    this.element = element
-    this.setMarker = setMarker
-    this.map = null
-    this.initMap(element)
+  constructor(element) {
+    this._element = element
+    this._googleMap = null
+    this._listeners = []
+    this.init()
   }
 
-  initMap(element) {
+  init() {
     const everest = { lat: 27.9878, lng: 86.9250 };
-    const map = new google.maps.Map(element, {
+    const googleMap = new google.maps.Map(this._element, {
       center: everest,
       zoom: 10,
       mapTypeId: 'terrain',
     })
 
-    this.setMap(map)
+    this._googleMap = googleMap
   }
 
   addListener(event, callback) {
-    google.maps.event.addListener(this.map, event, callback)
+    this._listeners.push(event)
+    google.maps.event.addListener(this._googleMap, event, callback)
   }
 
-  getMap() {
-    return this.map
+  set map(map) {
+    this._googleMap = map
   }
 
-  setMap(map) {
-    this.map = map
+  get map() {
+    return this._googleMap
   }
+
+  set center(position) {
+    this._googleMap.setCenter(position)
+  }
+
+  get center() {
+    return this._googleMap.getCenter()
+  }
+
+  set zoom(zoomLevel) {
+    this._googleMap.setZoom(zoomLevel)
+  }
+
+  get zoom() {
+    return this._googleMap.getZoom()
+  }
+
 }
 
 export default GoogleMap

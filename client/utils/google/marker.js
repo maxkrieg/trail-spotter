@@ -1,33 +1,40 @@
 class GoogleMarker {
-  constructor(map) {
-    this.map = map
-    this.marker = null
+  constructor(googleMap) {
+    this._googleMap = googleMap
+    this._googleMarker = null
+    this._listeners = []
+    this.init()
   }
 
-  setMap(map) {
-    this.map = map
-  }
-
-  setPosition = (event) => {
-    console.log('set position', this)
-    const position = event.latLng
-
-    if (this.marker) {
-      this.marker.setMap(null)
-    }
-
-    const marker = new google.maps.Marker({
-      map: this.map,
-      position,
+  init() {
+    this._googleMarker = new google.maps.Marker({
+      map: this._googleMap,
       draggable: true,
       clickable: true,
     })
+  }
 
-    google.maps.event.addListener(marker, 'dragend', (e) => {
-      this.setPosition(e)
-    })
+  addListener(event, callback) {
+    this._listeners.push(event)
+    google.maps.event.addListener(this._googleMarker, event, callback)
+  }
 
-    this.marker = marker
+  get position() {
+    const pos = this._googleMarker.getPosition()
+    if (!pos) return null
+    return pos.toJSON()
+  }
+
+  set position(latLng) {
+    this._googleMarker.setPosition(latLng)
+  }
+
+  set map(map) {
+    this._googleMap = map
+  }
+
+  get map() {
+    return this._googleMap
   }
 
 
