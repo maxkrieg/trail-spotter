@@ -1,16 +1,24 @@
+const defaultConfig = {
+  draggable: false,
+  clickable: false,
+}
+
 class GoogleMarker {
-  constructor(googleMap) {
-    this._googleMap = googleMap
+  constructor(map, config) {
+    this._googleMap = map
     this._googleMarker = null
     this._listeners = []
-    this.init()
+    this.init(config)
   }
 
-  init() {
+  init(config) {
+    const options = {
+      ...defaultConfig,
+      ...config,
+    }
     this._googleMarker = new google.maps.Marker({
       map: this._googleMap,
-      draggable: true,
-      clickable: true,
+      ...options,
     })
   }
 
@@ -26,6 +34,7 @@ class GoogleMarker {
   }
 
   set position(latLng) {
+    console.log(latLng)
     this._googleMarker.setPosition(latLng)
   }
 

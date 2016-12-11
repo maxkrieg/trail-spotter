@@ -1,17 +1,22 @@
+const defaultConfig = {
+  center: { lat: 27.9878, lng: 86.9250 },
+  zoom: 10,
+  mapTypeId: 'terrain',
+}
+
 class GoogleMap {
-  constructor(element, center) {
+  constructor(element, config) {
     this._googleMap = null
     this._listeners = []
-    this.init(element, center)
+    this.init(element, config)
   }
 
-  init(element, center = { lat: 27.9878, lng: 86.9250 }) {
-    const googleMap = new google.maps.Map(element, {
-      center,
-      zoom: 10,
-      mapTypeId: 'terrain',
-    })
-
+  init(element, config) {
+    const options = {
+      ...defaultConfig,
+      ...config,
+    }
+    const googleMap = new google.maps.Map(element, options)
     this._googleMap = googleMap
   }
 

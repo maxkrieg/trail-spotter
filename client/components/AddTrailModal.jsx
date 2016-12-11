@@ -1,5 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 
+import GoogleMap from '../utils/google/map'
+import GoogleMarker from '../utils/google/marker'
+
 import styles from './css/AddTrailModal.css'
 
 const propTypes = {
@@ -16,6 +19,18 @@ class AddTrailModal extends Component {
       titleValue: props.placeTitle,
       descriptionValue: '',
     }
+  }
+
+  componentDidMount() {
+    const GMap = new GoogleMap(this.mapEl, {
+      center: this.props.markerLatLng,
+      zoom: 13,
+      draggable: false,
+      zoomControl: false,
+      streetViewControl: false,
+    })
+    const GMarker = new GoogleMarker(GMap.map)
+    GMarker.position = this.props.markerLatLng
   }
 
   handleTitleChange = (e) => {
@@ -70,7 +85,7 @@ class AddTrailModal extends Component {
             <output>LONG: {lng}</output>
           </div>
 
-          <div>Map goes here</div>
+          <div ref={(map) => { this.mapEl = map }} style={{ height: '200px', width: '100%' }}></div>
 
           <div className={styles.buttonContainer}>
             <button onClick={this.props.addTrail} className={styles.submitButton}>Save</button>

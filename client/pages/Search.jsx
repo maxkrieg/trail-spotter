@@ -25,7 +25,10 @@ class Search extends Component {
   componentDidMount() {
     // Initialize Google stuff
     const GMap = new GoogleMap(this.mapEl)
-    const GMarker = new GoogleMarker(GMap.map)
+    const GMarker = new GoogleMarker(GMap.map, {
+      draggable: true,
+      clickable: true,
+    })
     const GSearchBox = new GoogleSearchBox(this.searchEl)
 
     // Add desired listeners
