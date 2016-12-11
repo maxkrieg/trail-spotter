@@ -1,15 +1,13 @@
 class GoogleMap {
-  constructor(element) {
-    this._element = element
+  constructor(element, center) {
     this._googleMap = null
     this._listeners = []
-    this.init()
+    this.init(element, center)
   }
 
-  init() {
-    const everest = { lat: 27.9878, lng: 86.9250 };
-    const googleMap = new google.maps.Map(this._element, {
-      center: everest,
+  init(element, center = { lat: 27.9878, lng: 86.9250 }) {
+    const googleMap = new google.maps.Map(element, {
+      center,
       zoom: 10,
       mapTypeId: 'terrain',
     })

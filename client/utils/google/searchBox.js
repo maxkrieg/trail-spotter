@@ -22,7 +22,7 @@ class GoogleSearchBox {
 
   get position() {
     const places = this._googleSearchBox.getPlaces()
-    if (places.length === 0) return null
+    if (!places || places.length === 0) return null
     return places[0].geometry.location
   }
 
