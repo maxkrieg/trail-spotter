@@ -34,7 +34,6 @@ class GoogleMarker {
   }
 
   set position(latLng) {
-    console.log(latLng)
     this._googleMarker.setPosition(latLng)
   }
 

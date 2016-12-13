@@ -58,10 +58,6 @@ class Search extends Component {
     this.setState({ isModalOpen: false })
   }
 
-  handleAddTrail = () => {
-    this.props.addTrail(this.state.markerPosition)
-  }
-
   render() {
     return (
       <div className={styles.main}>
@@ -82,12 +78,9 @@ class Search extends Component {
             <AddTrailModal
               markerLatLng={this.state.markerPosition}
               closeModal={this.closeModal}
-              addTrail={this.handleAddTrail}
+              addTrail={this.props.addTrail}
               placeTitle={this.searchEl.value || ''}
             />}
-          <div style={{ height: '50px' }}>
-            {JSON.stringify(this.state.markerPosition)}
-          </div>
           <div className={styles.map} ref={(map) => { this.mapEl = map }}></div>
         </div>
       </div>

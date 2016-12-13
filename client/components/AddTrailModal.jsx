@@ -16,17 +16,18 @@ class AddTrailModal extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      titleValue: props.placeTitle,
-      descriptionValue: '',
+      title: props.placeTitle,
+      description: '',
     }
   }
 
   componentDidMount() {
     const GMap = new GoogleMap(this.mapEl, {
       center: this.props.markerLatLng,
-      zoom: 13,
+      zoom: 14,
       draggable: false,
       zoomControl: false,
+      scrollwheel: false,
       streetViewControl: false,
     })
     const GMarker = new GoogleMarker(GMap.map)
@@ -35,60 +36,61 @@ class AddTrailModal extends Component {
 
   handleTitleChange = (e) => {
     this.setState({
-      titleValue: e.target.value,
+      title: e.target.value,
     })
   }
 
   handleDescriptionChange = (e) => {
     this.setState({
-      descriptionValue: e.target.value,
+      description: e.target.value,
     })
   }
 
-  handleClearClick = () => {
-    this.setState({
-      titleValue: '',
-      descriptionValue: '',
-    })
+  handleAddTrail = () => {
+    const data = {
+      ...this.props.markerLatLng,
+      ...this.state,
+    }
+    this.props.addTrail(data)
   }
 
   render() {
-    const { lat, lng } = this.props.markerLatLng
-
     return (
-      <div className={styles.main} onClick={this.props.closeModal}>
-        <div className={styles.content} onClick={(e) => { e.stopPropagation() }}>
+      <div className={styles.overlay} onClick={this.props.closeModal}>
+        <div className={styles.modal} onClick={(e) => { e.stopPropagation() }}>
 
           <button className={styles.xButton} onClick={this.props.closeModal}>x</button>
 
           <h1 className={styles.title}>Add trail</h1>
 
-          <div className={styles.form}>
-            <input
-              type="text"
-              placeholder="Title..."
-              className={styles.titleInput}
-              onChange={this.handleTitleChange}
-              value={this.state.titleValue}
-            />
-
-            <textarea
-              placeholder="Description..."
-              className={styles.descriptionInput}
-              value={this.state.descriptionValue}
-              onChange={this.handleDescriptionChange}
-            />
-          </div>
-
           <div>
-            <output>LAT: {lat}</output>
-            <output>LONG: {lng}</output>
-          </div>
+            <div className={styles.mapWrapper}>
+              <div
+                className={styles.map}
+                ref={(map) => { this.mapEl = map }}
+              />
+            </div>
 
-          <div ref={(map) => { this.mapEl = map }} style={{ height: '200px', width: '100%' }}></div>
+            <div className={styles.form}>
+              <input
+                type="text"
+                placeholder="Title..."
+                className={styles.titleInput}
+                onChange={this.handleTitleChange}
+                value={this.state.title}
+              />
+
+              <textarea
+                placeholder="Description..."
+                className={styles.descriptionInput}
+                value={this.state.description}
+                onChange={this.handleDescriptionChange}
+              />
+            </div>
+          </div>
 
           <div className={styles.buttonContainer}>
-            <button onClick={this.props.addTrail} className={styles.submitButton}>Save</button>
+            <button onClick={this.handleAddTrail} className={styles.submitButton}>Save</button>
             <button onClick={this.props.closeModal} className={styles.cancelButton}>Cancel</button>
           </div>
 
