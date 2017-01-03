@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import AddTrailModal from '../components/AddTrailModal'
-import { addTrail } from '../actions'
-
+import { addTrail } from '../actions/trails'
+import { openAddTrailModal, closeAddTrailModal } from '../actions/addTrailModal'
 import GoogleMap from '../utils/google/map'
 import GoogleMarker from '../utils/google/marker'
 import GoogleSearchBox from '../utils/google/searchBox'
@@ -11,19 +11,25 @@ import styles from './css/Search.css'
 
 const propTypes = {
   addTrail: PropTypes.func,
+  openAddTrailModal: PropTypes.func,
+  closeAddTrailModal: PropTypes.func,
+  isModalOpen: PropTypes.bool,
 }
 
 class Search extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isModalOpen: false,
+      // isModalOpen: false,
       markerPosition: null,
     }
   }
 
   componentDidMount() {
-    // Initialize Google stuff
+    this.initGoogle()
+  }
+
+  initGoogle() {
     const GMap = new GoogleMap(this.mapEl)
     const GMarker = new GoogleMarker(GMap.map, {
       draggable: true,
@@ -50,12 +56,14 @@ class Search extends Component {
 
   openModal = () => {
     if (this.state.markerPosition) {
-      this.setState({ isModalOpen: true })
+      // this.setState({ isModalOpen: true })
+      this.props.openAddTrailModal()
     }
   }
 
   closeModal = () => {
-    this.setState({ isModalOpen: false })
+    // this.setState({ isModalOpen: false })
+    this.props.closeAddTrailModal()
   }
 
   render() {
@@ -74,7 +82,7 @@ class Search extends Component {
               Add to my trails
             </button>
           </div>
-          {this.state.isModalOpen &&
+          {this.props.isModalOpen &&
             <AddTrailModal
               markerLatLng={this.state.markerPosition}
               closeModal={this.closeModal}
@@ -88,9 +96,14 @@ class Search extends Component {
   }
 }
 
-const mapStateToProps = () => ({})
+const mapStateToProps = (state) => ({
+  isModalOpen: state.addTrailModal.isOpen,
+})
+
 const mapActionsToProps = {
   addTrail,
+  openAddTrailModal,
+  closeAddTrailModal,
 }
 
 Search.propTypes = propTypes

@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import kittens from './kittens';
+import trails from './trails'
+import addTrailModal from './addTrailModal'
 
-const reducers = combineReducers({
-  kittens,
-});
-
-export default reducers;
+export default combineReducers({
+  trails,
+  addTrailModal,
+})

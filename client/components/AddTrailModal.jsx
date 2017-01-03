@@ -18,6 +18,8 @@ class AddTrailModal extends Component {
     this.state = {
       title: props.placeTitle,
       description: '',
+      addTrailSuccess: false,
+      addTrailError: false,
     }
   }
 
@@ -46,10 +48,13 @@ class AddTrailModal extends Component {
     })
   }
 
-  handleAddTrail = () => {
+  handleSaveClick = () => {
     const data = {
       ...this.props.markerLatLng,
-      ...this.state,
+      ...{
+        title: this.state.title,
+        description: this.state.description,
+      },
     }
     this.props.addTrail(data)
   }
@@ -65,10 +70,7 @@ class AddTrailModal extends Component {
 
           <div>
             <div className={styles.mapWrapper}>
-              <div
-                className={styles.map}
-                ref={(map) => { this.mapEl = map }}
-              />
+              <div className={styles.map} ref={(map) => { this.mapEl = map }} />
             </div>
 
             <div className={styles.form}>
@@ -93,6 +95,9 @@ class AddTrailModal extends Component {
             <button onClick={this.handleAddTrail} className={styles.submitButton}>Save</button>
             <button onClick={this.props.closeModal} className={styles.cancelButton}>Cancel</button>
           </div>
+
+          <div>Success: {`${this.state.addTrailSuccess}`}</div>
+          <div>Error: {`${this.state.addTrailError}`}</div>
 
         </div>
       </div>

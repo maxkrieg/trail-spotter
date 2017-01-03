@@ -1,0 +1,2 @@
+export const ADD_TRAIL_SUCCESS = 'ADD_TRAIL_SUCCESS'
+export const ADD_TRAIL_ERROR = 'ADD_TRAIL_ERROR'

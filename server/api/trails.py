@@ -32,5 +32,5 @@ class TrailsAPI(Resource):
         db.session.add(trail)
         db.session.commit()
         return {
-            'status': 'success',
+            'id': trail.id
         }
