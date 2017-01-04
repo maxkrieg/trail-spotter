@@ -1,8 +1,6 @@
 import React, { Component, PropTypes } from 'react'
-
 import GoogleMap from '../utils/google/map'
 import GoogleMarker from '../utils/google/marker'
-
 import styles from './css/AddTrailModal.css'
 
 const propTypes = {
@@ -10,6 +8,7 @@ const propTypes = {
   closeModal: PropTypes.func,
   addTrail: PropTypes.func,
   placeTitle: PropTypes.string,
+  addTrailStatus: PropTypes.any,
 }
 
 class AddTrailModal extends Component {
@@ -18,8 +17,6 @@ class AddTrailModal extends Component {
     this.state = {
       title: props.placeTitle,
       description: '',
-      addTrailSuccess: false,
-      addTrailError: false,
     }
   }
 
@@ -37,15 +34,11 @@ class AddTrailModal extends Component {
   }
 
   handleTitleChange = (e) => {
-    this.setState({
-      title: e.target.value,
-    })
+    this.setState({ title: e.target.value })
   }
 
   handleDescriptionChange = (e) => {
-    this.setState({
-      description: e.target.value,
-    })
+    this.setState({ description: e.target.value })
   }
 
   handleSaveClick = () => {
@@ -92,12 +85,11 @@ class AddTrailModal extends Component {
           </div>
 
           <div className={styles.buttonContainer}>
-            <button onClick={this.handleAddTrail} className={styles.submitButton}>Save</button>
+            <button onClick={this.handleSaveClick} className={styles.submitButton}>Save</button>
             <button onClick={this.props.closeModal} className={styles.cancelButton}>Cancel</button>
           </div>
 
-          <div>Success: {`${this.state.addTrailSuccess}`}</div>
-          <div>Error: {`${this.state.addTrailError}`}</div>
+          <div>{`${this.props.addTrailStatus}`}</div>
 
         </div>
       </div>

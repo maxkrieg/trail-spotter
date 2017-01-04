@@ -6,21 +6,19 @@ import { openAddTrailModal, closeAddTrailModal } from '../actions/addTrailModal'
 import GoogleMap from '../utils/google/map'
 import GoogleMarker from '../utils/google/marker'
 import GoogleSearchBox from '../utils/google/searchBox'
-
 import styles from './css/Search.css'
 
 const propTypes = {
   addTrail: PropTypes.func,
   openAddTrailModal: PropTypes.func,
   closeAddTrailModal: PropTypes.func,
-  isModalOpen: PropTypes.bool,
+  modalState: PropTypes.object,
 }
 
 class Search extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      // isModalOpen: false,
       markerPosition: null,
     }
   }
@@ -56,13 +54,11 @@ class Search extends Component {
 
   openModal = () => {
     if (this.state.markerPosition) {
-      // this.setState({ isModalOpen: true })
       this.props.openAddTrailModal()
     }
   }
 
   closeModal = () => {
-    // this.setState({ isModalOpen: false })
     this.props.closeAddTrailModal()
   }
 
@@ -82,12 +78,13 @@ class Search extends Component {
               Add to my trails
             </button>
           </div>
-          {this.props.isModalOpen &&
+          {this.props.modalState.isOpen &&
             <AddTrailModal
               markerLatLng={this.state.markerPosition}
               closeModal={this.closeModal}
               addTrail={this.props.addTrail}
               placeTitle={this.searchEl.value || ''}
+              addTrailStatus={this.props.modalState.addTrailStatus}
             />}
           <div className={styles.map} ref={(map) => { this.mapEl = map }}></div>
         </div>
@@ -97,7 +94,7 @@ class Search extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  isModalOpen: state.addTrailModal.isOpen,
+  modalState: state.addTrailModal,
 })
 
 const mapActionsToProps = {
