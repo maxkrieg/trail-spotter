@@ -64,30 +64,27 @@ class Search extends Component {
 
   render() {
     return (
-      <div className={styles.main}>
-        <header className={styles.header}>trail spotter</header>
-        <div className={styles.mapSearchContainer}>
-          <div>
-            <input
-              className={styles.input}
-              ref={(search) => { this.searchEl = search }}
-              type="text"
-              placeholder="Find a trail"
-            />
-            <button onClick={this.openModal} className={styles.addTrailButton}>
-              Add to my trails
-            </button>
-          </div>
-          {this.props.modalState.isOpen &&
-            <AddTrailModal
-              markerLatLng={this.state.markerPosition}
-              closeModal={this.closeModal}
-              addTrail={this.props.addTrail}
-              placeTitle={this.searchEl.value || ''}
-              addTrailStatus={this.props.modalState.addTrailStatus}
-            />}
-          <div className={styles.map} ref={(map) => { this.mapEl = map }}></div>
+      <div className={styles.searchPageContainer}>
+        <div>
+          <input
+            className={styles.input}
+            ref={(search) => { this.searchEl = search }}
+            type="text"
+            placeholder="Find a trail"
+          />
+          <button onClick={this.openModal} className={styles.addTrailButton}>
+            Add to my trails
+          </button>
         </div>
+        {this.props.modalState.isOpen &&
+          <AddTrailModal
+            markerLatLng={this.state.markerPosition}
+            closeModal={this.closeModal}
+            addTrail={this.props.addTrail}
+            placeTitle={this.searchEl.value || ''}
+            addTrailStatus={this.props.modalState.addTrailStatus}
+          />}
+        <div className={styles.map} ref={(map) => { this.mapEl = map }}></div>
       </div>
     )
   }

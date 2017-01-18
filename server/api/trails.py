@@ -4,7 +4,7 @@ from flask_restful import Api, Resource, reqparse
 from app import db
 from models.trail import Trail
 
-trails_api = Api(Blueprint('trails_api', __name__))  # pylint: disable=invalid-name
+trails_api = Api(Blueprint('trails_api', __name__))
 
 parser = reqparse.RequestParser()
 parser.add_argument('lat', type=float, location='json')

@@ -2,15 +2,22 @@ import 'whatwg-fetch';
 
 async function request({ url, data, params = {} }) {
   try {
-    const response = await fetch(url, {
+    const config = {
       credentials: 'include',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: data ? ((data instanceof FormData) ? data : JSON.stringify(data)) : undefined,
       ...params,
-    })
+    }
+    if (data) {
+      if (data instanceof FormData) {
+        config.body = data
+      } else {
+        config.body = JSON.stringify(data)
+      }
+    }
+    const response = await fetch(url, config)
     const contentType = response.headers.get('content-type');
 
     if (response.status < 200 || response.status >= 400) {
@@ -26,6 +33,7 @@ async function request({ url, data, params = {} }) {
     console.error(await err.response.json())
     throw err
   }
+  return true
 }
 
 export function get(url) {

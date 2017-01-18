@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import { Link } from 'react-router'
 import GoogleMap from '../utils/google/map'
 import GoogleMarker from '../utils/google/marker'
 import styles from './css/AddTrailModal.css'
@@ -52,6 +53,28 @@ class AddTrailModal extends Component {
     this.props.addTrail(data)
   }
 
+  renderStatusContent() {
+    if (!this.props.addTrailStatus) return null
+
+    const success = (
+      <div>
+        <h3>Success!</h3>
+        <div>
+          <Link to="/all-trails">Go to all trails</Link>
+          <button onClick={this.props.closeModal}>Close</button>
+        </div>
+      </div>
+    )
+    const error = <div>Error</div>
+    const content = { success, error }
+
+    return (
+      <div style={{ textAlign: 'center' }}>
+        {content[this.props.addTrailStatus]}
+      </div>
+    )
+  }
+
   render() {
     return (
       <div className={styles.overlay} onClick={this.props.closeModal}>
@@ -61,36 +84,32 @@ class AddTrailModal extends Component {
 
           <h1 className={styles.title}>Add trail</h1>
 
-          <div>
-            <div className={styles.mapWrapper}>
-              <div className={styles.map} ref={(map) => { this.mapEl = map }} />
+          {this.props.addTrailStatus ? this.renderStatusContent() :
+            <div>
+              <div className={styles.mapWrapper}>
+                <div className={styles.map} ref={(map) => { this.mapEl = map }} />
+              </div>
+              <div className={styles.form}>
+                <input
+                  type="text"
+                  placeholder="Title..."
+                  className={styles.titleInput}
+                  onChange={this.handleTitleChange}
+                  value={this.state.title}
+                />
+                <textarea
+                  placeholder="Description..."
+                  className={styles.descriptionInput}
+                  value={this.state.description}
+                  onChange={this.handleDescriptionChange}
+                />
+              </div>
+              <div className={styles.buttonContainer}>
+                <button onClick={this.handleSaveClick} className={styles.submitButton}>Save</button>
+                <button onClick={this.props.closeModal} className={styles.cancelButton}>Cancel</button>
+              </div>
             </div>
-
-            <div className={styles.form}>
-              <input
-                type="text"
-                placeholder="Title..."
-                className={styles.titleInput}
-                onChange={this.handleTitleChange}
-                value={this.state.title}
-              />
-
-              <textarea
-                placeholder="Description..."
-                className={styles.descriptionInput}
-                value={this.state.description}
-                onChange={this.handleDescriptionChange}
-              />
-            </div>
-          </div>
-
-          <div className={styles.buttonContainer}>
-            <button onClick={this.handleSaveClick} className={styles.submitButton}>Save</button>
-            <button onClick={this.props.closeModal} className={styles.cancelButton}>Cancel</button>
-          </div>
-
-          <div>{`${this.props.addTrailStatus}`}</div>
-
+          }
         </div>
       </div>
     )

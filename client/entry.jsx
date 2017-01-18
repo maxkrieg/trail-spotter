@@ -4,10 +4,13 @@ import createLogger from 'redux-logger';
 import promise from 'redux-promise';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Router, Route, browserHistory } from 'react-router'
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 
+import App from './App'
 import Search from './pages/Search';
+import AllTrails from './pages/AllTrails'
 import reducers from './reducers';
 
 const logger = createLogger()
@@ -20,6 +23,11 @@ const store = createStoreWithMiddleware(reducers);
 
 ReactDOM.render(
   <Provider store={store}>
-    <Search />
+    <Router history={browserHistory}>
+      <Route path="/" component={App}>
+        <Route path="search" component={Search} />
+        <Route path="all-trails" component={AllTrails} />
+      </Route>
+    </Router>
   </Provider>,
   document.getElementById('root'))
