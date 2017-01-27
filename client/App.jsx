@@ -8,7 +8,10 @@ const propTypes = {
 const App = (props) => (
   <div className={styles.main}>
     <header className={styles.header}>trail spotter</header>
-    {props.children}
+    <div className={styles.pageBody}>
+      {props.children}
+    </div>
+
   </div>
 )
 

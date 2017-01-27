@@ -3,7 +3,8 @@ from flask import Blueprint
 from flask_restful import Api, Resource
 from models import Kitten
 
-kittens_api = Api(Blueprint('kittens_api', __name__)) # pylint: disable=invalid-name
+kittens_api = Api(Blueprint('kittens_api', __name__))
+
 
 @kittens_api.resource('/kittens')
 class KittensAPI(Resource):
@@ -22,7 +23,7 @@ class KittensAPI(Resource):
         count = Kitten.query.count()
 
         if count >= 9:
-            return { 'error': 'This basket is full of kittens!' }, 403
+            return {'error': 'This basket is full of kittens!'}, 403
 
         new_kitten = Kitten()
         db.session.add(new_kitten)

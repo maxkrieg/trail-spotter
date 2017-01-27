@@ -64,7 +64,7 @@ class Search extends Component {
 
   render() {
     return (
-      <div className={styles.searchPageContainer}>
+      <div>
         <div>
           <input
             className={styles.input}
