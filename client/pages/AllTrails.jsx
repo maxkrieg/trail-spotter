@@ -1,6 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
+import TrailCard from '../components/TrailCard'
 import { getAllTrails } from '../actions/trails'
+
+import styles from './css/AllTrails.css'
 
 const propTypes = {
   trails: PropTypes.array.isRequired,
@@ -17,13 +20,9 @@ class AllTrails extends Component {
     return (
       <div>
         <h2>All Trails</h2>
-        <ul>
+        <ul className={styles.trailCardList}>
           {this.props.trails.map((trail) => (
-            <li>
-              <strong>{trail.title}</strong><br />
-              {trail.description}<br />
-              {trail.created.date}, {trail.created.time}
-            </li>
+            <TrailCard key={trail.id} trail={trail} />
           ))}
         </ul>
       </div>

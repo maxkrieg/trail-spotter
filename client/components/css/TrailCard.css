@@ -1,0 +1,7 @@
+.trailCard {
+  list-style: none;
+  height: 125px;
+  width: 200px;
+  border: 1px black solid;
+  padding: 10px;
+}
