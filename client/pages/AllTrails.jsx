@@ -18,7 +18,7 @@ class AllTrails extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{ border: '1px solid black' }}>
         <h2>All Trails</h2>
         <ul className={styles.trailCardList}>
           {this.props.trails.map((trail) => (

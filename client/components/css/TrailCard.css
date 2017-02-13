@@ -1,7 +1,12 @@
 .trailCard {
   list-style: none;
-  height: 125px;
-  width: 200px;
-  border: 1px black solid;
+  width: 30%;
+  float: left;
+  padding: 0 0 25px 2.5%;
+}
+
+.trailCardContent {
   padding: 10px;
+  border: 1px black solid;
+  height: 125px;
 }

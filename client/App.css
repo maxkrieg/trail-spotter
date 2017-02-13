@@ -1,6 +1,5 @@
 .main {
-  background: rgba(60, 100, 60, 0.1);
-  height: 100%;
+  min-width: 900px;
 }
 
 .header {

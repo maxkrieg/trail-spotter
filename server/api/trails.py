@@ -28,6 +28,4 @@ class TrailsAPI(Resource):
         title = args['title']
         description = args['description']
         trail = create_trail(lat, lng, title, description)
-        return {
-            'id': trail.id
-        }
+        return trail

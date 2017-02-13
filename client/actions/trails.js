@@ -29,10 +29,7 @@ export function addTrail(data) {
       const response = await post('/api/trails', data)
       dispatch({
         type: ADD_TRAIL_SUCCESS,
-        payload: {
-          ...data,
-          ...response,
-        },
+        payload: response,
       })
     } catch (e) {
       dispatch({
