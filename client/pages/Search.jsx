@@ -6,6 +6,7 @@ import { openAddTrailModal, closeAddTrailModal } from '../actions/addTrailModal'
 import GoogleMap from '../utils/google/map'
 import GoogleMarker from '../utils/google/marker'
 import GoogleSearchBox from '../utils/google/searchBox'
+import GooglePolyline from '../utils/google/polyline'
 import styles from './css/Search.css'
 
 const propTypes = {
@@ -33,6 +34,7 @@ class Search extends Component {
       draggable: true,
       clickable: true,
     })
+    // const GPolyline = new GooglePolyline(GMap.map)
     const GSearchBox = new GoogleSearchBox(this.searchEl)
 
     // Add desired listeners

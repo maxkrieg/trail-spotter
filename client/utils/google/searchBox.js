@@ -25,8 +25,6 @@ class GoogleSearchBox {
     if (!places || places.length === 0) return null
     return places[0].geometry.location
   }
-
-
 }
 
 export default GoogleSearchBox
