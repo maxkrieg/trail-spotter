@@ -1,14 +1,18 @@
+const arrowSymbol = {
+  path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+  strokeOpacity: 1,
+  scale: 1.5,
+}
+
 const defaultConfig = {
   geodesic: true,
-  strokeColor: '#FF0000',
-  strokeOpacity: 1.0,
-  strokeWeight: 2,
-  path: [
-    {lat: 37.772, lng: -122.214},
-    {lat: 21.291, lng: -157.821},
-    {lat: -18.142, lng: 178.431},
-    {lat: -27.467, lng: 153.027},
-  ],
+  strokeOpacity: 0,
+  editable: true,
+  icons: [{
+    icon: arrowSymbol,
+    offset: '0',
+    repeat: '10px',
+  }],
 }
 
 
@@ -37,7 +41,7 @@ class GooglePolyline {
   }
 
   addPathPoint(latLng) {
-    const path = this._googlePolyine.getPath()
+    const path = this._googlePolyline.getPath()
     path.push(latLng)
   }
 

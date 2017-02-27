@@ -1,5 +1,5 @@
 const defaultConfig = {
-  center: { lat: 27.9878, lng: 86.9250 },
+  center: { lat: 37.772, lng: -122.214 },
   zoom: 10,
   mapTypeId: 'terrain',
 }

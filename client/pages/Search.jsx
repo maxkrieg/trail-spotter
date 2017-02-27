@@ -21,6 +21,7 @@ class Search extends Component {
     super(props)
     this.state = {
       markerPosition: null,
+      plottingEnabled: false,
     }
   }
 
@@ -34,12 +35,13 @@ class Search extends Component {
       draggable: true,
       clickable: true,
     })
-    // const GPolyline = new GooglePolyline(GMap.map)
+    const GPolyline = new GooglePolyline(GMap.map, {})
     const GSearchBox = new GoogleSearchBox(this.searchEl)
 
     // Add desired listeners
     GMap.addListener('click', (e) => {
       GMarker.position = e.latLng
+      GPolyline.addPathPoint(e.latLng)
       this.setState({ markerPosition: GMarker.position })
     })
     GMarker.addListener('dragend', () => {
@@ -64,6 +66,10 @@ class Search extends Component {
     this.props.closeAddTrailModal()
   }
 
+  handlePlotToggleClick = () => {
+    this.setState({ plottingEnabled: !this.state.plottingEnabled })
+  }
+
   render() {
     return (
       <div>
@@ -77,6 +83,13 @@ class Search extends Component {
           <button onClick={this.openModal} className={styles.addTrailButton}>
             Add to my trails
           </button>
+          <input
+            type="checkbox"
+            checked={this.state.plottingEnabled}
+            onClick={this.handlePlotToggleClick}
+            style={{ marginLeft: '20px' }}
+          />
+          <label>Plot trail</label>
         </div>
         {this.props.modalState.isOpen &&
           <AddTrailModal
