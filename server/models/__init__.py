@@ -1,1 +1,1 @@
-from .kitten import Kitten
+from .trail import Trail

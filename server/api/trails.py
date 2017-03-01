@@ -4,6 +4,9 @@ from flask_restful import Api, Resource, reqparse
 from services.trails import create_trail
 from services.trails import get_all_trails
 
+import logging
+logger = logging.getLogger(__name__)
+
 trails_api = Api(Blueprint('trails_api', __name__))
 
 parser = reqparse.RequestParser()
@@ -17,6 +20,8 @@ parser.add_argument('description', type=str, location='json')
 class TrailsAPI(Resource):
     @staticmethod
     def get():
+        print "TRAILS PRINT STATEMENT"
+        logger.info('TRAILS API INFO')
         trails = get_all_trails()
         return trails
 
