@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
-from flask import render_template, Blueprint
+from flask import render_template, Blueprint, abort
 
 index_view = Blueprint('index', __name__)
 
+
 @index_view.route('/')
 def index():
-    return render_template('index.html')
+    try:
+        return render_template('index.html')
+    except Exception as e:
+        abort(404)
