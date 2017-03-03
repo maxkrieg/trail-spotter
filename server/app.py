@@ -16,14 +16,13 @@ def create_app():
     app = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
     app.config['SERVER_NAME'] = os.environ['SERVER_NAME']
+    app.config['DEBUG'] = os.environ['FLASK_DEBUG']
 
     register_blueprints(app)
-    log_env_and_routes(app)
 
     db.init_app(app)
+    init_logging(app)
 
-    app.logger.setLevel(logging.INFO)
-    app.logger.addHandler(logging.StreamHandler(stdout))
     return app
 
 
@@ -32,26 +31,45 @@ def register_blueprints(app):
     app.register_blueprint(index_view)
 
 
+def init_logging(app):
+
+    level = logging.ERROR
+    if app.debug:
+        level = logging.DEBUG
+
+    app.logger.setLevel(level)
+    # handler = logging.StreamHandler(stdout)
+    # app.logger.addHandler(handler)
+    log_env_and_routes(app)
+
+
 def log_env_and_routes(app):
-    print " "
-    print "--------------------------------"
-    print "ENVIRONMENT:"
+    print "-----------------------------------"
+    print "OS Environment"
+    print "-----------------------------------"
     for key, value in os.environ.iteritems():
         if 'npm' not in key:
-            print key + ": " + value
+            print "{}: {}".format(key, value)
 
-    print "--------------------------------"
+    print "-----------------------------------"
+    print "Flask App Configuration"
+    print "-----------------------------------"
+    for key, value in dict(app.config).iteritems():
+        print "{}: {}".format(key, value)
+
+    print "-----------------------------------"
+    print "Routes"
+    print "-----------------------------------"
     with app.app_context():
         output = []
         for rule in app.url_map.iter_rules():
-
             options = {}
             for arg in rule.arguments:
                 options[arg] = "[{0}]".format(arg)
 
             methods = ','.join(rule.methods)
             url = url_for(rule.endpoint, **options)
-            line = urllib.unquote("{:50s} {:20s} {}".format(rule.endpoint, methods, url))
+            line = urllib.unquote("{:30s} {:10s} {}".format(rule.endpoint, methods, url))
             output.append(line)
 
         for line in sorted(output):

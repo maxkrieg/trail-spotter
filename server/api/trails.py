@@ -5,32 +5,55 @@ from services.trails import create_trail
 from services.trails import get_all_trails
 
 import logging
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('app')
 
 trails_api = Api(Blueprint('trails_api', __name__))
 
-parser = reqparse.RequestParser()
-parser.add_argument('lat', type=float, location='json')
-parser.add_argument('lng', type=float, location='json')
-parser.add_argument('title', type=str, location='json')
-parser.add_argument('description', type=str, location='json')
+post_parser = reqparse.RequestParser()
+post_parser.add_argument('path', type=list, location='json', required=True)
+post_parser.add_argument('title', type=str, location='json')
+post_parser.add_argument('description', type=str, location='json')
 
 
 @trails_api.resource('/trails')
 class TrailsAPI(Resource):
+    """
+    API resource for accessing all trails.
+    """
+
     @staticmethod
     def get():
-        print "TRAILS PRINT STATEMENT"
-        logger.info('TRAILS API INFO')
         trails = get_all_trails()
         return trails
 
     @staticmethod
     def post():
-        args = parser.parse_args(strict=True)
-        lat = args['lat']
-        lng = args['lng']
+        args = post_parser.parse_args(strict=True)
+        path = args['path']
         title = args['title']
         description = args['description']
-        trail = create_trail(lat, lng, title, description)
+        trail = create_trail(
+            path=path,
+            title=title,
+            description=description
+        )
         return trail
+
+
+@trails_api.resource('/trail/<trail_id>')
+class TrailAPI(Resource):
+    """
+    CRUD API for a single trail.
+    """
+
+    @staticmethod
+    def get(trail_id):
+        pass
+
+    @staticmethod
+    def delete(trail_id):
+        pass
+
+    @staticmethod
+    def put(trail_id):
+        pass

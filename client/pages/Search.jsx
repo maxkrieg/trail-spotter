@@ -83,13 +83,16 @@ class Search extends Component {
           <button onClick={this.openModal} className={styles.addTrailButton}>
             Add to my trails
           </button>
-          <input
-            type="checkbox"
-            checked={this.state.plottingEnabled}
-            onClick={this.handlePlotToggleClick}
-            style={{ marginLeft: '20px' }}
-          />
-          <label>Plot trail</label>
+          <label htmlFor="plot-toggle">
+            <input
+              id="plot-toggle"
+              type="checkbox"
+              checked={this.state.plottingEnabled}
+              onClick={this.handlePlotToggleClick}
+              style={{ marginLeft: '20px' }}
+            />
+            Plot trail
+          </label>
         </div>
         {this.props.modalState.isOpen &&
           <AddTrailModal

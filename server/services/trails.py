@@ -8,12 +8,12 @@ def get_all_trails():
     return trails
 
 
-def create_trail(lat, lng, title, description):
+def create_trail(path, title, description):
     trail = Trail(
-        lat=lat,
-        lng=lng,
+        path=path,
         title=title,
-        description=description)
+        description=description
+    )
     db.session.add(trail)
     db.session.commit()
     return format_trail(trail)
@@ -22,8 +22,7 @@ def create_trail(lat, lng, title, description):
 def format_trail(trail):
     return {
         'id': trail.id,
-        'lat': trail.lat,
-        'lng': trail.lng,
+        'path': trail.path,
         'title': trail.title,
         'description': trail.description,
         'created': {
