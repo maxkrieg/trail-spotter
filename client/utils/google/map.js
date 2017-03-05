@@ -7,7 +7,6 @@ const defaultConfig = {
 class GoogleMap {
   constructor(element, config) {
     this._googleMap = null
-    this._listeners = []
     this.init(element, config)
   }
 
@@ -21,8 +20,12 @@ class GoogleMap {
   }
 
   addListener(event, callback) {
-    this._listeners.push(event)
-    google.maps.event.addListener(this._googleMap, event, callback)
+    const listener = google.maps.event.addListener(this._googleMap, event, callback)
+    return listener
+  }
+
+  clearListeners(event) {
+    google.maps.event.clearListeners(this._googleMap, event)
   }
 
   set map(map) {

@@ -22,38 +22,43 @@ class Search extends Component {
     this.state = {
       markerPosition: null,
       plottingEnabled: false,
+      path: null,
     }
+    this.gMap = null
+    this.gSearch = null
+    this.gPolyline = null
   }
 
   componentDidMount() {
-    this.initGoogle()
+    this.initMap()
+    this.initSearch()
   }
 
-  initGoogle() {
-    const GMap = new GoogleMap(this.mapEl)
-    const GMarker = new GoogleMarker(GMap.map, {
-      draggable: true,
-      clickable: true,
-    })
-    const GPolyline = new GooglePolyline(GMap.map, {})
-    const GSearchBox = new GoogleSearchBox(this.searchEl)
+  initMap() {
+    this.gMap = new GoogleMap(this.mapEl)
+  }
 
-    // Add desired listeners
-    GMap.addListener('click', (e) => {
-      GMarker.position = e.latLng
-      GPolyline.addPathPoint(e.latLng)
-      this.setState({ markerPosition: GMarker.position })
-    })
-    GMarker.addListener('dragend', () => {
-      this.setState({ markerPosition: GMarker.position })
-    })
-    GSearchBox.addListener('places_changed', () => {
-      const position = GSearchBox.position
-      GMarker.position = position
-      GMap.center = position
-      GMap.zoom = 12
-      this.setState({ markerPosition: GMarker.position })
-    })
+  initSearch() {
+    if (this.gMap) {
+      this.gSearch = new GoogleSearchBox(this.searchEl)
+      this.gSearch.addListener('places_changed', () => {
+        const position = this.gSearch.position
+        this.gMap.center = position
+        this.gMap.zoom = 10
+      })
+    }
+  }
+
+  initPolyline() {
+    if (this.gMap) {
+      if (!this.gPolyline) {
+        this.gPolyline = new GooglePolyline(this.gMap.map)
+      }
+      this.gMap.addListener('click', (e) => {
+        this.gPolyline.addPathPoint(e.latLng)
+        this.setState({ path: this.gPolyline.path })
+      })
+    }
   }
 
   openModal = () => {
@@ -62,13 +67,39 @@ class Search extends Component {
     }
   }
 
-  closeModal = () => {
-    this.props.closeAddTrailModal()
+  handlePlotToggleClick = () => {
+    if (!this.state.plottingEnabled) {
+      this.handleEnablePlotting()
+    } else {
+      this.handleDisablePlotting()
+    }
   }
 
-  handlePlotToggleClick = () => {
-    this.setState({ plottingEnabled: !this.state.plottingEnabled })
+  handleEnablePlotting() {
+    this.initPolyline()
+    this.setState({ plottingEnabled: true })
   }
+
+  handleDisablePlotting() {
+    this.gMap.clearListeners('click')
+    this.setState({ plottingEnabled: false })
+  }
+
+  handleClearPath = () => {
+    if (this.gPolyline) {
+      this.gPolyline.clearPath()
+      this.setState({ path: this.gPolyline.path })
+    }
+  }
+
+  handleUndo = () => {
+    if (this.gPolyline) {
+      this.gPolyline.undo()
+      this.setState({ path: this.gPolyline.path })
+    }
+  }
+
+  handleUndo
 
   render() {
     return (
@@ -83,21 +114,19 @@ class Search extends Component {
           <button onClick={this.openModal} className={styles.addTrailButton}>
             Add to my trails
           </button>
-          <label htmlFor="plot-toggle">
-            <input
-              id="plot-toggle"
-              type="checkbox"
-              checked={this.state.plottingEnabled}
-              onClick={this.handlePlotToggleClick}
-              style={{ marginLeft: '20px' }}
-            />
-            Plot trail
-          </label>
+          <button onClick={this.handlePlotToggleClick}>
+            {this.state.plottingEnabled ? 'Done' : 'Start plotting'}
+          </button>
+          {this.state.plottingEnabled &&
+            <div style={{ display: 'inline-block' }}>
+              <button onClick={this.handleUndo}>Undo</button>
+              <button onClick={this.handleClearPath}>Clear</button>
+            </div>}
         </div>
         {this.props.modalState.isOpen &&
           <AddTrailModal
             markerLatLng={this.state.markerPosition}
-            closeModal={this.closeModal}
+            closeModal={this.props.closeAddTrailModal}
             addTrail={this.props.addTrail}
             placeTitle={this.searchEl.value || ''}
             addTrailStatus={this.props.modalState.addTrailStatus}
