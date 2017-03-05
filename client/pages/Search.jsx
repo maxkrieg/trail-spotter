@@ -99,8 +99,6 @@ class Search extends Component {
     }
   }
 
-  handleUndo
-
   render() {
     return (
       <div>
