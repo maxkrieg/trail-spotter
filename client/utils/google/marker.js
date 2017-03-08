@@ -4,10 +4,9 @@ const defaultConfig = {
 }
 
 class GoogleMarker {
-  constructor(map, config) {
+  constructor(map, config = {}) {
     this._googleMap = map
     this._googleMarker = null
-    this._listeners = []
     this.init(config)
   }
 
@@ -23,8 +22,19 @@ class GoogleMarker {
   }
 
   addListener(event, callback) {
-    this._listeners.push(event)
     google.maps.event.addListener(this._googleMarker, event, callback)
+  }
+
+  clear() {
+    this._googleMarker.setMap(null)
+  }
+
+  hide() {
+    this._googleMarker.setVisible(false)
+  }
+
+  show() {
+    this._googleMarker.setVisible(true)
   }
 
   get position() {
@@ -38,11 +48,11 @@ class GoogleMarker {
   }
 
   set map(map) {
-    this._googleMap = map
+    this._googleMarker.setMap(map)
   }
 
   get map() {
-    return this._googleMap
+    return this._googleMarker.getMap()
   }
 
 

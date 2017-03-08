@@ -22,11 +22,12 @@ class Search extends Component {
     this.state = {
       markerPosition: null,
       plottingEnabled: false,
-      path: null,
     }
     this.gMap = null
     this.gSearch = null
     this.gPolyline = null
+    this.gStartMarker = null
+    this.gEndMarker = null
   }
 
   componentDidMount() {
@@ -49,20 +50,33 @@ class Search extends Component {
     }
   }
 
+  initMarkers() {
+    if (this.gMap) {
+      this.gStartMarker = this.gStartMarker || new GoogleMarker(this.gMap.map)
+      this.gEndMarker = this.gEndMarker || new GoogleMarker(this.gMap.map)
+      this.gMap.addListener('click', (e) => {
+        const path = this.gPolyline.path
+        if (path.length === 1) {
+          this.gStartMarker.position = e.latLng
+        }
+        if (path.length > 1) {
+          this.gEndMarker.position = e.latLng
+        }
+      })
+    }
+  }
+
   initPolyline() {
     if (this.gMap) {
-      if (!this.gPolyline) {
-        this.gPolyline = new GooglePolyline(this.gMap.map)
-      }
+      this.gPolyline = this.gPolyline || new GooglePolyline(this.gMap.map)
       this.gMap.addListener('click', (e) => {
         this.gPolyline.addPathPoint(e.latLng)
-        this.setState({ path: this.gPolyline.path })
       })
     }
   }
 
   openModal = () => {
-    if (this.state.markerPosition) {
+    if (this.gPolyline && this.gPolyline.path) {
       this.props.openAddTrailModal()
     }
   }
@@ -77,6 +91,7 @@ class Search extends Component {
 
   handleEnablePlotting() {
     this.initPolyline()
+    this.initMarkers()
     this.setState({ plottingEnabled: true })
   }
 
@@ -88,14 +103,28 @@ class Search extends Component {
   handleClearPath = () => {
     if (this.gPolyline) {
       this.gPolyline.clearPath()
-      this.setState({ path: this.gPolyline.path })
+    }
+    if (this.gStartMarker) {
+      this.gStartMarker.position = null
+    }
+    if (this.gEndMarker) {
+      this.gEndMarker.position = null
     }
   }
 
   handleUndo = () => {
     if (this.gPolyline) {
       this.gPolyline.undo()
-      this.setState({ path: this.gPolyline.path })
+      const pathLength = this.gPolyline.path.length
+      if (pathLength === 0) {
+        this.gStartMarker.position = null
+      }
+      if (pathLength < 2 && this.gEndMarker.position) {
+        this.gEndMarker.position = null
+      } else {
+        const lastPathPoint = this.gPolyline.path[pathLength - 1]
+        this.gEndMarker.position = lastPathPoint
+      }
     }
   }
 
@@ -123,7 +152,7 @@ class Search extends Component {
         </div>
         {this.props.modalState.isOpen &&
           <AddTrailModal
-            markerLatLng={this.state.markerPosition}
+            path={this.gPolyline && this.gPolyline.path}
             closeModal={this.props.closeAddTrailModal}
             addTrail={this.props.addTrail}
             placeTitle={this.searchEl.value || ''}

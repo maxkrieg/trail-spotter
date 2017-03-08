@@ -20,7 +20,6 @@ class GooglePolyline {
   constructor(map, config = {}) {
     this._googleMap = map
     this._googlePolyline = null
-    this._listeners = []
     this.init(config)
   }
 
@@ -36,7 +35,6 @@ class GooglePolyline {
   }
 
   addListener(event, callback) {
-    this._listeners.push(event)
     google.maps.event.addListener(this._googlePolyline, event, callback)
   }
 
@@ -47,18 +45,22 @@ class GooglePolyline {
 
   clearPath() {
     const mvcArray = this._googlePolyline.getPath()
-    mvcArray.clear()
+    if (mvcArray) {
+      mvcArray.clear()
+    }
   }
 
   undo() {
     const mvcArray = this._googlePolyline.getPath()
-    mvcArray.pop()
+    if (mvcArray.getLength() > 0) {
+      mvcArray.pop()
+    }
   }
 
   get path() {
     const mvcArray = this._googlePolyline.getPath()
-    let pathArray = null
-    if (mvcArray && mvcArray.length > 0) {
+    let pathArray = []
+    if (mvcArray && mvcArray.getLength() > 0) {
       const mvcActualArray = mvcArray.getArray()
       pathArray = mvcActualArray.map((latLng) => (
         latLng.toJSON()
