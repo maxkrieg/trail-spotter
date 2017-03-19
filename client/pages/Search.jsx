@@ -37,6 +37,7 @@ class Search extends Component {
 
   initMap() {
     this.gMap = new GoogleMap(this.mapEl)
+    console.dir(this.gMap.map)
   }
 
   initSearch() {
@@ -92,11 +93,13 @@ class Search extends Component {
   handleEnablePlotting() {
     this.initPolyline()
     this.initMarkers()
+    this.gMap.cursor = 'crosshair'
     this.setState({ plottingEnabled: true })
   }
 
   handleDisablePlotting() {
     this.gMap.clearListeners('click')
+    this.gMap.cursor = null
     this.setState({ plottingEnabled: false })
   }
 

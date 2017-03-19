@@ -5,7 +5,7 @@ import GoogleMarker from '../utils/google/marker'
 import styles from './css/AddTrailModal.css'
 
 const propTypes = {
-  markerLatLng: PropTypes.object,
+  path: PropTypes.object,
   closeModal: PropTypes.func,
   addTrail: PropTypes.func,
   placeTitle: PropTypes.string,
@@ -22,16 +22,16 @@ class AddTrailModal extends Component {
   }
 
   componentDidMount() {
-    const GMap = new GoogleMap(this.mapEl, {
-      center: this.props.markerLatLng,
-      zoom: 14,
-      draggable: false,
-      zoomControl: false,
-      scrollwheel: false,
-      streetViewControl: false,
-    })
-    const GMarker = new GoogleMarker(GMap.map)
-    GMarker.position = this.props.markerLatLng
+    // const GMap = new GoogleMap(this.mapEl, {
+    //   center: this.props.markerLatLng,
+    //   zoom: 14,
+    //   draggable: false,
+    //   zoomControl: false,
+    //   scrollwheel: false,
+    //   streetViewControl: false,
+    // })
+    // const GMarker = new GoogleMarker(GMap.map)
+    // GMarker.position = this.props.markerLatLng
   }
 
   handleTitleChange = (e) => {
@@ -44,7 +44,7 @@ class AddTrailModal extends Component {
 
   handleSaveClick = () => {
     const data = {
-      ...this.props.markerLatLng,
+      // ...this.props.markerLatLng,
       ...{
         title: this.state.title,
         description: this.state.description,
@@ -83,12 +83,16 @@ class AddTrailModal extends Component {
           <button className={styles.xButton} onClick={this.props.closeModal}>x</button>
 
           <h1 className={styles.title}>Add trail</h1>
-
+          <ul>
+            {this.props.path.map((point, i) => (
+              <li key={i}>{JSON.stringify(point)}</li>
+            ))}
+          </ul>
           {this.props.addTrailStatus ? this.renderStatusContent() :
             <div>
-              <div className={styles.mapWrapper}>
+              {/* <div className={styles.mapWrapper}>
                 <div className={styles.map} ref={(map) => { this.mapEl = map }} />
-              </div>
+              </div> */}
               <div className={styles.form}>
                 <input
                   type="text"

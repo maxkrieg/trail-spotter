@@ -52,6 +52,11 @@ class GoogleMap {
     return this._googleMap.getZoom()
   }
 
+  set cursor(cursorType) {
+    this._googleMap.setOptions({
+      draggableCursor: cursorType,
+    })
+  }
 }
 
 export default GoogleMap
