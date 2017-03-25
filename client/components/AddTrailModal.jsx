@@ -71,7 +71,7 @@ class AddTrailModal extends Component {
   handleSaveClick = () => {
     this.props.addTrail({
       path: this.props.path,
-      trailLength: this.props.trailLength,
+      length: this.props.trailLength,
       title: this.state.title,
       description: this.state.description,
     })

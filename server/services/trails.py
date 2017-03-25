@@ -8,15 +8,11 @@ def get_all_trails():
     return trails
 
 
-def create_trail(path, title, description):
-    trail = Trail(
-        path=path,
-        title=title,
-        description=description
-    )
+def create_trail(**trail_kargs):
+    trail = Trail(**trail_kargs)
     db.session.add(trail)
     db.session.commit()
-    return format_trail(trail)
+    return trail
 
 
 def format_trail(trail):

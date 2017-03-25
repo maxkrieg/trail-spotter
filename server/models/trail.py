@@ -10,6 +10,7 @@ class Trail(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     created = db.Column(db.DateTime, default=datetime.utcnow)
-    path = db.Column(JSON)
     title = db.Column(db.String(256))
     description = db.Column(db.String(1024))
+    path = db.Column(JSON)
+    length = db.Column(db.Float(precision=6, asdecimal=False))
