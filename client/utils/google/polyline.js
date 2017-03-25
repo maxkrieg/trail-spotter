@@ -57,6 +57,10 @@ class GooglePolyline {
     }
   }
 
+  get mvcPathArray() {
+    return this._googlePolyline.getPath()
+  }
+
   get path() {
     const mvcArray = this._googlePolyline.getPath()
     let pathArray = []
@@ -79,6 +83,16 @@ class GooglePolyline {
 
   get map() {
     return this._googleMap
+  }
+
+  get pathMiles() {
+    const mvcArray = this._googlePolyline.getPath()
+    if (mvcArray && mvcArray.getLength() > 0) {
+      const meters = google.maps.geometry.spherical.computeLength(mvcArray.getArray())
+      const miles = meters * 0.000621371
+      return Math.round(miles * 10) / 10
+    }
+    return 0
   }
 }
 

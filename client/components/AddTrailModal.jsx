@@ -1,11 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 import GoogleMap from '../utils/google/map'
+import GooglePolyline from '../utils/google/polyline'
 import GoogleMarker from '../utils/google/marker'
 import styles from './css/AddTrailModal.css'
 
 const propTypes = {
-  path: PropTypes.object,
+  path: PropTypes.array,
+  trailLength: PropTypes.number,
   closeModal: PropTypes.func,
   addTrail: PropTypes.func,
   placeTitle: PropTypes.string,
@@ -22,16 +24,40 @@ class AddTrailModal extends Component {
   }
 
   componentDidMount() {
-    // const GMap = new GoogleMap(this.mapEl, {
-    //   center: this.props.markerLatLng,
-    //   zoom: 14,
-    //   draggable: false,
-    //   zoomControl: false,
-    //   scrollwheel: false,
-    //   streetViewControl: false,
-    // })
-    // const GMarker = new GoogleMarker(GMap.map)
-    // GMarker.position = this.props.markerLatLng
+    this.initMap()
+    this.initPolyline()
+    this.initMarkers()
+  }
+
+  initMap() {
+    const config = {
+      center: this.props.path[Math.round((this.props.path.length - 1) / 2)],
+      zoom: 14,
+    }
+    this.gMap = new GoogleMap(this.mapEl, config)
+  }
+
+  initPolyline() {
+    if (this.gMap) {
+      const config = {
+        path: this.props.path,
+        editable: false,
+      }
+      this.gPolyline = new GooglePolyline(this.gMap.map, config)
+    }
+  }
+
+  initMarkers() {
+    if (this.gMap) {
+      const start = {
+        position: this.props.path[0],
+      }
+      const end = {
+        position: this.props.path[this.props.path.length - 1],
+      }
+      this.gStartMarker = new GoogleMarker(this.gMap.map, start)
+      this.gEndMarker = new GoogleMarker(this.gMap.map, end)
+    }
   }
 
   handleTitleChange = (e) => {
@@ -43,36 +69,52 @@ class AddTrailModal extends Component {
   }
 
   handleSaveClick = () => {
-    const data = {
-      // ...this.props.markerLatLng,
-      ...{
-        title: this.state.title,
-        description: this.state.description,
-      },
-    }
-    this.props.addTrail(data)
+    this.props.addTrail({
+      path: this.props.path,
+      trailLength: this.props.trailLength,
+      title: this.state.title,
+      description: this.state.description,
+    })
   }
 
   renderStatusContent() {
-    if (!this.props.addTrailStatus) return null
+    // const success = (
+    //   <div>
+    //     <h3>Success!</h3>
+    //     <div>
+    //       <Link to="/all-trails">Go to all trails</Link>
+    //       <button onClick={this.props.closeModal}>Close</button>
+    //     </div>
+    //   </div>
+    // )
+    // const error = <div>Error</div>
+    // const content = { success, error }
 
-    const success = (
-      <div>
-        <h3>Success!</h3>
-        <div>
-          <Link to="/all-trails">Go to all trails</Link>
-          <button onClick={this.props.closeModal}>Close</button>
-        </div>
-      </div>
-    )
-    const error = <div>Error</div>
-    const content = { success, error }
+    switch (this.props.addTrailStatus) {
+      case 'success':
+        return (
+          <div>
+            <h3>Success!</h3>
+            <div>
+              <Link to="/all-trails">Go to all trails</Link>
+              <button onClick={this.props.closeModal}>Close</button>
+            </div>
+          </div>
+        )
+      case 'error':
+        return <div>Error</div>
+      default:
+        return null
+    }
 
-    return (
-      <div style={{ textAlign: 'center' }}>
-        {content[this.props.addTrailStatus]}
-      </div>
-    )
+    // if (this.props.addTrailStatus in content) {
+    //   return (
+    //     <div style={{ textAlign: 'center' }}>
+    //       {content[this.props.addTrailStatus]}
+    //     </div>
+    //   )
+    // }
+    // return null
   }
 
   render() {
@@ -83,16 +125,12 @@ class AddTrailModal extends Component {
           <button className={styles.xButton} onClick={this.props.closeModal}>x</button>
 
           <h1 className={styles.title}>Add trail</h1>
-          <ul>
-            {this.props.path.map((point, i) => (
-              <li key={i}>{JSON.stringify(point)}</li>
-            ))}
-          </ul>
+          <output>{this.props.trailLength}</output>
           {this.props.addTrailStatus ? this.renderStatusContent() :
             <div>
-              {/* <div className={styles.mapWrapper}>
+              <div className={styles.mapWrapper}>
                 <div className={styles.map} ref={(map) => { this.mapEl = map }} />
-              </div> */}
+              </div>
               <div className={styles.form}>
                 <input
                   type="text"

@@ -20,7 +20,6 @@ class Search extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      markerPosition: null,
       plottingEnabled: false,
     }
     this.gMap = null
@@ -37,7 +36,6 @@ class Search extends Component {
 
   initMap() {
     this.gMap = new GoogleMap(this.mapEl)
-    console.dir(this.gMap.map)
   }
 
   initSearch() {
@@ -155,13 +153,14 @@ class Search extends Component {
         </div>
         {this.props.modalState.isOpen &&
           <AddTrailModal
-            path={this.gPolyline && this.gPolyline.path}
+            path={this.gPolyline.path}
+            trailLength={this.gPolyline.pathMiles}
             closeModal={this.props.closeAddTrailModal}
             addTrail={this.props.addTrail}
             placeTitle={this.searchEl.value || ''}
             addTrailStatus={this.props.modalState.addTrailStatus}
           />}
-        <div className={styles.map} ref={(map) => { this.mapEl = map }}></div>
+        <div className={styles.map} ref={(map) => { this.mapEl = map }} />
       </div>
     )
   }
