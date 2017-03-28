@@ -37,6 +37,7 @@ config = update(config, {
       new webpack.optimize.UglifyJsPlugin({ output: { comments: false } }),
       new HtmlWebpackPlugin({
         inject: true,
+        title: 'trail spotter',
         filename: '../../templates/index.html',
         template: 'client/views/index.tpl'
       })

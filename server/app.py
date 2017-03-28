@@ -3,7 +3,7 @@ import urllib
 
 from flask.ext.sqlalchemy import SQLAlchemy
 import logging
-from sys import stdout
+# from sys import stdout
 from flask import Flask, url_for
 
 db = SQLAlchemy()

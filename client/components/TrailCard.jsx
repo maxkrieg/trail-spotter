@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react'
 import styles from './css/TrailCard.css'
 
-const { number, shape, string } = PropTypes
+const { number, shape, string, array } = PropTypes
 
 const propTypes = {
   trail: shape({
-    lat: number,
-    lng: number,
+    path: array,
+    length: number,
     title: string,
     created: shape({
       date: string,
@@ -23,7 +23,7 @@ class TrailCard extends Component {
           <strong>{this.props.trail.title}</strong><br />
           {this.props.trail.description}<br />
           Added: {this.props.trail.created.date}, {this.props.trail.created.time}<br />
-          Lat: {this.props.trail.lat}, Long: {this.props.trail.lng}
+          Length: {this.props.trail.length} miles
         </div>
       </li>
     )

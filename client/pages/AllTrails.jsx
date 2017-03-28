@@ -21,8 +21,8 @@ class AllTrails extends Component {
       <div style={{ border: '1px solid black' }}>
         <h2>All Trails</h2>
         <ul className={styles.trailCardList}>
-          {this.props.trails.map((trail) => (
-            <TrailCard key={trail.id} trail={trail} />
+          {this.props.trails.map((trail, i) => (
+            <TrailCard key={i} trail={trail} />
           ))}
         </ul>
       </div>

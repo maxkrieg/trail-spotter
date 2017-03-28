@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" />
-    <title><%= htmlWebpackPlugin.options.title || 'my app' %></title>
+    <title><%= htmlWebpackPlugin.options.title %></title>
 
   </head>
   <body style="height:100vh;">

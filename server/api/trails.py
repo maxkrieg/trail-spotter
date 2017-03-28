@@ -4,7 +4,6 @@ from flask import Blueprint, request
 from flask_restful import Api, Resource
 from services.trails import create_trail
 from services.trails import get_all_trails
-from schemas.trail import trail_schema
 
 import logging
 logger = logging.getLogger('app')
@@ -25,12 +24,13 @@ class TrailsAPI(Resource):
         json_data = request.get_json()
         if not json_data:
             return {'message': 'No trail data provided!'}, 400
-        data, errors = trail_schema.load(json_data)
-        if errors:
-            return errors, 422
-        trail = create_trail(**data)
-        result = trail_schema.dump(trail)
-        return result.data
+
+        try:
+            trail = create_trail(json_data)
+        except ValueError as e:
+            return e.message, 422
+
+        return trail
 
 
 @trails_api.resource('/trail/<trail_id>')

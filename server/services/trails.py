@@ -1,28 +1,23 @@
 from app import db
 from models.trail import Trail
+from schemas.trail import trail_schema
+from schemas.trail import trails_schema
 
 
 def get_all_trails():
     query = db.session.query(Trail).order_by(Trail.created.desc())
-    trails = [format_trail(result) for result in query]
-    return trails
+    result = trails_schema.dump(query)
+    return result.data
 
 
-def create_trail(**trail_kargs):
-    trail = Trail(**trail_kargs)
+def create_trail(json_data):
+    data, errors = trail_schema.load(json_data)
+    if errors:
+        raise ValueError('Bad trail data in JSON!')
+
+    trail = Trail(**data)
     db.session.add(trail)
     db.session.commit()
-    return trail
 
-
-def format_trail(trail):
-    return {
-        'id': trail.id,
-        'path': trail.path,
-        'title': trail.title,
-        'description': trail.description,
-        'created': {
-            'date': trail.created.strftime("%-m/%-j/%Y"),
-            'time': trail.created.strftime("%-I:%-M%p").lower()
-        }
-    }
+    result = trail_schema.dump(trail)
+    return result.data
