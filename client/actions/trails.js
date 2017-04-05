@@ -4,6 +4,7 @@ import {
   GET_ALL_TRAILS_ERROR,
   ADD_TRAIL_SUCCESS,
   ADD_TRAIL_ERROR,
+  SORT_TRAILS,
 } from '../actionTypes/trails'
 
 
@@ -36,5 +37,12 @@ export function addTrail(data) {
         type: ADD_TRAIL_ERROR,
       })
     }
+  }
+}
+
+export function sortTrails(sortKey) {
+  return {
+    type: SORT_TRAILS,
+    payload: sortKey,
   }
 }
