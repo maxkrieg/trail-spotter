@@ -86,7 +86,7 @@ class AddTrailModal extends Component {
           <div>
             <h3>Success!</h3>
             <div>
-              <Link to="/all-trails">Go to all trails</Link>
+              <Link to="/all-trails" onClick={this.props.closeModal}>Go to all trails</Link>
               <button onClick={this.props.closeModal}>Close</button>
             </div>
           </div>

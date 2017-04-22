@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import TrailCard from '../components/TrailCard'
-import { getAllTrails, sortTrails } from '../actions/trails'
+import ReactTable from 'react-table'
+import 'react-table/react-table.css'
+import { getAllTrails } from '../actions/trails'
 
-import styles from './css/AllTrails.css'
+// import styles from './css/AllTrails.css'
 
 const propTypes = {
   trails: PropTypes.array.isRequired,
@@ -17,28 +18,33 @@ class AllTrails extends Component {
     this.props.getAllTrails()
   }
 
-  handleSelect = (e) => {
-    this.props.sortTrails(e.target.value)
-  }
-
   render() {
     return (
       <div>
         <h2>All Trails</h2>
-        <select onChange={this.handleSelect}>
-          <option value="created">Created</option>
-          <option value="longest">Longest</option>
-          <option value="shortest">Shortest</option>
-        </select>
-        <ul className={styles.trailCardList}>
-          {this.props.trails.map((trail, i) => (
-            <TrailCard key={i} trail={trail} />
-          ))}
-        </ul>
+        <ReactTable
+          data={this.props.trails}
+          columns={columns}
+        />
       </div>
     )
   }
 }
+
+const columns = [{
+  header: 'Name',
+  accessor: 'title',
+}, {
+  header: 'Trail Head',
+  accessor: 'trail_head_address',
+}, {
+  header: 'Length (miles)',
+  accessor: 'length',
+}, {
+  header: 'Created',
+  accessor: 'created',
+  render: props => <span>{props.value.time}, {props.value.date}</span>,
+}]
 
 const mapStateToProps = (state) => ({
   trails: state.trails,
@@ -46,7 +52,6 @@ const mapStateToProps = (state) => ({
 
 const mapActionsToProps = {
   getAllTrails,
-  sortTrails,
 }
 
 AllTrails.propTypes = propTypes

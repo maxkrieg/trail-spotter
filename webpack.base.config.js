@@ -7,31 +7,34 @@ module.exports = {
     modulesDirectories: [
       'web_modules',
       'node_modules',
-      'client'
+      'client',
     ],
-    extensions: ['', '.js', '.jsx', '.scss']
+    extensions: ['', '.js', '.jsx', '.css'],
   },
 
   plugins: [
     new webpack.DefinePlugin({
-      NODE_ENV: process.env.NODE_ENV
-    })
+      NODE_ENV: process.env.NODE_ENV,
+    }),
   ],
 
   module: {
     preLoaders: [
-      { test: /\.js$/, loader: 'eslint-loader', exclude: /node_modules/ }
+      { test: /\.js$/, loader: 'eslint-loader', exclude: /node_modules/ },
     ],
 
     loaders: [
-      { test: /\.svg$/, loaders: ['babel', 'react-svg'] },
+      {
+        test: /\.svg$/,
+        loaders: ['babel', 'react-svg'],
+      },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader?modules&importLoaders=1!postcss-loader'
-      }
+        loader: 'style-loader!css-loader?modules&importLoaders=1!postcss-loader',
+      },
     ],
 
-    noParse: /\.min\.js/
-  }
+    noParse: /\.min\.js/,
+  },
 
 };
