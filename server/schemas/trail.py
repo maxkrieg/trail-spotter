@@ -10,6 +10,7 @@ class TrailSchema(Schema):
     title = fields.Str()
     description = fields.Str()
     path = fields.List(fields.Dict())
+    trail_head_address = fields.Str()
     length = fields.Number()
 
     created = fields.Method("format_timestamp", dump_only=True)

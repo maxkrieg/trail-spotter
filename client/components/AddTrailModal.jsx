@@ -11,6 +11,7 @@ const propTypes = {
   closeModal: PropTypes.func,
   addTrail: PropTypes.func,
   placeTitle: PropTypes.string,
+  trailHeadAddress: PropTypes.string,
   addTrailStatus: PropTypes.any,
 }
 
@@ -74,6 +75,7 @@ class AddTrailModal extends Component {
       length: this.props.trailLength,
       title: this.state.title,
       description: this.state.description,
+      trail_head_address: this.props.trailHeadAddress,
     })
   }
 

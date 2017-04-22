@@ -23,13 +23,13 @@ class Search extends Component {
     super(props)
     this.state = {
       plottingEnabled: false,
-      trailHeadAddress: null,
     }
     this.gMap = null
     this.gSearch = null
     this.gPolyline = null
     this.gStartMarker = null
     this.gEndMarker = null
+    this.gSearchMarker = null
   }
 
   componentDidMount() {
@@ -42,39 +42,41 @@ class Search extends Component {
   }
 
   initSearch() {
-    if (!this.gMap) return
     this.gSearch = new GoogleSearchBox(this.searchEl)
     this.gSearch.addListener('places_changed', () => {
       const position = this.gSearch.position
       this.gMap.center = position
       this.gMap.zoom = 10
+      this.gSearchMarker = this.gSearchMarker || new GoogleMarker(this.gMap.map)
+      this.gSearchMarker.position = position
     })
   }
 
   initMarkers() {
-    if (!this.gMap) return
-    this.gStartMarker = this.gStartMarker || new GoogleMarker(this.gMap.map)
-    this.gEndMarker = this.gEndMarker || new GoogleMarker(this.gMap.map)
     this.gMap.addListener('click', (e) => {
-      const path = this.gPolyline.path
-      if (path.length === 1) {
-        this.gStartMarker.position = e.latLng
+      const position = e.latLng
+      if (!this.gStartMarker) {
+        this.gStartMarker = new GoogleMarker(this.gMap.map, { position })
       }
-      if (path.length > 1) {
-        this.gEndMarker.position = e.latLng
+      if (this.gPolyline.path.length > 1) {
+        if (!this.gEndMarker) {
+          this.gEndMarker = new GoogleMarker(this.gMap.map, { position })
+        } else {
+          this.gEndMarker.position = position
+        }
       }
     })
   }
 
   initPolyline() {
-    if (!this.gMap) return
-    this.gPolyline = this.gPolyline || new GooglePolyline(this.gMap.map)
     this.gMap.addListener('click', (e) => {
+      if (!this.gPolyline) {
+        this.gPolyline = new GooglePolyline(this.gMap.map)
+      }
       this.gPolyline.addPathPoint(e.latLng)
-      if (this.gPolyline.path.length === 1) {
-        reverseGeocode(e.latLng.toJSON(), (address) => {
-          this.setState({ trailHeadAddress: address })
-        })
+      if (this.gSearchMarker) {
+        this.gSearchMarker.position = null
+        this.gSearchMarker = null
       }
     })
   }
@@ -112,9 +114,11 @@ class Search extends Component {
     }
     if (this.gStartMarker) {
       this.gStartMarker.position = null
+      this.gStartMarker = null
     }
     if (this.gEndMarker) {
       this.gEndMarker.position = null
+      this.gEndMarker = null
     }
   }
 
@@ -122,14 +126,17 @@ class Search extends Component {
     if (!this.gPolyline) return
     this.gPolyline.undo()
     const pathLength = this.gPolyline.path.length
-    if (pathLength === 0) {
-      this.gStartMarker.position = null
-    }
-    if (pathLength < 2 && this.gEndMarker.position) {
-      this.gEndMarker.position = null
-    } else {
+    if (pathLength > 2) {
       const lastPathPoint = this.gPolyline.path[pathLength - 1]
       this.gEndMarker.position = lastPathPoint
+    }
+    if (pathLength === 0 && this.gStartMarker) {
+      this.gStartMarker.position = null
+      this.gStartMarker = null
+    }
+    if (pathLength < 2 && this.gEndMarker) {
+      this.gEndMarker.position = null
+      this.gEndMarker = null
     }
   }
 
@@ -161,10 +168,10 @@ class Search extends Component {
             trailLength={this.gPolyline.pathMiles}
             closeModal={this.props.closeAddTrailModal}
             addTrail={this.props.addTrail}
-            placeTitle={this.searchEl.value || ''}
+            placeTitle={this.gPolyline.firstPointAddress || this.searchEl.value}
+            trailHeadAddress={this.gPolyline.firstPointAddress}
             addTrailStatus={this.props.modalState.addTrailStatus}
           />}
-        <div>{this.state.trailHeadAddress}</div>
         <div className={styles.map} ref={(map) => { this.mapEl = map }} />
       </div>
     )

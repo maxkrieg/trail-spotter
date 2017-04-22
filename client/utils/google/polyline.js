@@ -1,3 +1,5 @@
+import { reverseGeocode } from './geocode'
+
 const arrowSymbol = {
   path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
   strokeOpacity: 1,
@@ -20,6 +22,7 @@ class GooglePolyline {
   constructor(map, config = {}) {
     this._googleMap = map
     this._googlePolyline = null
+    this._firstPointAddress = null
     this.init(config)
   }
 
@@ -40,6 +43,11 @@ class GooglePolyline {
 
   addPathPoint(latLng) {
     const mvcArray = this._googlePolyline.getPath()
+    if (mvcArray.getLength() < 1) {
+      reverseGeocode(latLng.toJSON(), (address) => {
+        this._firstPointAddress = address
+      })
+    }
     mvcArray.push(latLng)
   }
 
@@ -93,6 +101,10 @@ class GooglePolyline {
       return Math.round(miles * 10) / 10
     }
     return 0
+  }
+
+  get firstPointAddress() {
+    return this._firstPointAddress
   }
 }
 
