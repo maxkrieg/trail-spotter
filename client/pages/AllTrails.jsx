@@ -9,7 +9,6 @@ import { getAllTrails } from '../actions/trails'
 const propTypes = {
   trails: PropTypes.array.isRequired,
   getAllTrails: PropTypes.func.isRequired,
-  sortTrails: PropTypes.func.isRequired,
 }
 
 class AllTrails extends Component {
@@ -25,26 +24,38 @@ class AllTrails extends Component {
         <ReactTable
           data={this.props.trails}
           columns={columns}
+          getTdProps={(state, rowInfo, column, instance) => {
+            return {
+              onClick: (e) => {
+                console.log('rowInfo', rowInfo)
+              }
+            }
+          }}
         />
       </div>
     )
   }
 }
 
-const columns = [{
-  header: 'Name',
-  accessor: 'title',
-}, {
-  header: 'Trail Head',
-  accessor: 'trail_head_address',
-}, {
-  header: 'Length (miles)',
-  accessor: 'length',
-}, {
-  header: 'Created',
-  accessor: 'created',
-  render: props => <span>{props.value.time}, {props.value.date}</span>,
-}]
+const columns = [
+  {
+    header: 'Name',
+    accessor: 'title',
+  },
+  {
+    header: 'Trail Head',
+    accessor: 'trail_head_address',
+  },
+  {
+    header: 'Length (miles)',
+    accessor: 'length',
+  },
+  {
+    header: 'Created',
+    accessor: 'created',
+    render: props => <span>{props.value.time}, {props.value.date}</span>,
+  },
+]
 
 const mapStateToProps = (state) => ({
   trails: state.trails,
