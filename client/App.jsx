@@ -1,8 +1,10 @@
 import React, { Component, PropTypes } from 'react'
+import NavBar from './components/NavBar'
 import styles from './App.css'
 
 const propTypes = {
   children: PropTypes.any,
+  params: PropTypes.object,
 }
 
 class App extends Component {
@@ -14,11 +16,10 @@ class App extends Component {
   render() {
     return (
       <div className={styles.main}>
-        <header className={styles.header}>trail spotter</header>
+        <NavBar params={this.props.params} />
         <div className={styles.pageBody}>
           {this.props.children}
         </div>
-
       </div>
     )
   }

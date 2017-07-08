@@ -2,13 +2,6 @@
   min-width: 900px;
 }
 
-.header {
-  padding: 10px 0;
-  text-align: center;
-  font-size: 24px;
-  font-weight: 300;
-}
-
 .pageBody {
-  margin: 15px 10%;
+  margin: 70px 10%;
 }
