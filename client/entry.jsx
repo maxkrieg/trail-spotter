@@ -12,6 +12,7 @@ import App from './App'
 import Home from './pages/Home'
 import Search from './pages/Search';
 import AllTrails from './pages/AllTrails'
+import Trail from './pages/Trail'
 import reducers from './reducers';
 
 const logger = createLogger()
@@ -29,6 +30,7 @@ ReactDOM.render(
         <IndexRoute component={Home} />
         <Route path="search" component={Search} />
         <Route path="all-trails" component={AllTrails} />
+        <Route path="trail/:trailId" component={Trail} />
       </Route>
     </Router>
   </Provider>,

@@ -7,6 +7,7 @@ from marshmallow import fields
 
 
 class TrailSchema(Schema):
+    id = fields.Int()
     title = fields.Str()
     description = fields.Str()
     path = fields.List(fields.Dict())

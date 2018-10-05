@@ -1,10 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
+import { browserHistory } from 'react-router'
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
 import { getAllTrails } from '../actions/trails'
-
-// import styles from './css/AllTrails.css'
 
 const propTypes = {
   trails: PropTypes.array.isRequired,
@@ -12,7 +11,6 @@ const propTypes = {
 }
 
 class AllTrails extends Component {
-
   componentDidMount() {
     this.props.getAllTrails()
   }
@@ -26,9 +24,7 @@ class AllTrails extends Component {
           columns={columns}
           getTdProps={(state, rowInfo, column, instance) => {
             return {
-              onClick: (e) => {
-                console.log('rowInfo', rowInfo)
-              }
+              onClick: (e) => { browserHistory.push(`/trail/${rowInfo.row.id}`) }
             }
           }}
         />
@@ -39,11 +35,15 @@ class AllTrails extends Component {
 
 const columns = [
   {
+    header: 'ID',
+    accessor: 'id',
+  },
+  {
     header: 'Name',
     accessor: 'title',
   },
   {
-    header: 'Trail Head',
+    header: 'Trail Head Address',
     accessor: 'trail_head_address',
   },
   {

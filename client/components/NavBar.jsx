@@ -11,24 +11,12 @@ class NavBar extends Component {
             <Link to="/" className={styles.navBrandName}>trail spotter</Link>
           </li>
           <li>
-            <Link to="search">MAP TRAIL</Link>
+            <Link to="/search">MAP TRAIL</Link>
           </li>
           <li>
-            <Link to="all-trails">ALL TRAILS</Link>
+            <Link to="/all-trails">ALL TRAILS</Link>
           </li>
         </ul>
-        {/* <ul className={styles.userList}>
-          <li>
-            <a>
-              Sign Up
-            </a>
-          </li>
-          <li>
-            <a>
-              Log In
-            </a>
-          </li>
-        </ul> */}
       </nav>
     )
   }

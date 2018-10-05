@@ -1,0 +1,4 @@
+{
+  "server/api/tests/test_trails.py": true, 
+  "server/services/tests/test_trails.py": true
+}

@@ -4,6 +4,7 @@ from flask import Blueprint, request
 from flask_restful import Api, Resource
 from services.trails import create_trail
 from services.trails import get_all_trails
+from services.trails import get_trail_information
 
 import logging
 logger = logging.getLogger('app')
@@ -33,12 +34,16 @@ class TrailsAPI(Resource):
         return trail
 
 
-@trails_api.resource('/trail/<trail_id>')
+@trails_api.resource('/trails/<trail_id>')
 class TrailAPI(Resource):
 
     @staticmethod
     def get(trail_id):
-        pass
+        try:
+            trail = get_trail_information(trail_id)
+        except Exception as e:
+            return e.message, 404
+        return trail
 
     @staticmethod
     def delete(trail_id):

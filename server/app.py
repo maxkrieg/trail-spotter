@@ -1,22 +1,28 @@
 import os
 import urllib
+from pprint import pprint
 
-from flask.ext.sqlalchemy import SQLAlchemy
 import logging
-# from sys import stdout
 from flask import Flask, url_for
 
-db = SQLAlchemy()
+import sys
+pprint(sys.path)
 
-from api.trails import trails_api
-from views.index import index_view
+from server.api.trails import trails_api
+from server.views.index import index_view
+from server.env import (
+    DATABASE_URI,
+    SERVER_NAME,
+    FLASK_DEBUG
+)
+from server.db import db
 
 
 def create_app():
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-    app.config['SERVER_NAME'] = os.environ['SERVER_NAME']
-    app.config['DEBUG'] = os.environ['FLASK_DEBUG']
+    app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
+    app.config['SERVER_NAME'] = SERVER_NAME
+    app.config['DEBUG'] = FLASK_DEBUG
 
     register_blueprints(app)
 

@@ -7,18 +7,18 @@ React + Redux client with Flask API and PostgreSQL database.
 ### Development
 The following will create a virtual env, install javascript and python dependencies, boot up postgresql, initialize the database tables, and start the front end and back end servers for development.
 ```shell
-1) git clone https://github.com/maxkrieg/trail-spotter.git
-2) cd trail-spotter
-3) npm install  # OR yarn install
-4) virtualenv venv
-5) source venv/bin/activate
-6) pip install -r requirements.txt
-7) cp .env.example .env
-8) createdb trailspotterdb
-8) pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start
-9) python server/initdb.py
-10) npm start  # start webpack server for development
-11) npm run server  # start gunicorn backend server
+git clone https://github.com/maxkrieg/trail-spotter.git
+cd trail-spotter
+npm install  # OR yarn install
+virtualenv venv
+source venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start
+createdb trailspotterdb
+python server/initdb.py
+npm start  # start webpack server for development
+npm run server  # start gunicorn backend server
 ```
 
 To build client-side production package with webpack:

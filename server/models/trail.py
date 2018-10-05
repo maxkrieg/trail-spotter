@@ -2,7 +2,7 @@
 from datetime import datetime
 from sqlalchemy.dialects.postgresql import JSON
 
-from app import db
+from server.db import db
 
 
 class Trail(db.Model):

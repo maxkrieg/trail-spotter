@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "trail spotter",
   "scripts": {
-    "gunicorn": "gunicorn $GUNICORN_PARAMS --chdir server entry:app",
+    "gunicorn": "gunicorn -b :3001 --pythonpath '.' --chdir server entry:app",
     "start": "webpack-dev-server",
     "test": "NODE_ENV=test BABEL_JEST_STAGE=0 jest",
     "dist": "NODE_ENV=production webpack -p"

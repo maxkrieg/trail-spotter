@@ -1,7 +1,8 @@
-from app import db
-from models.trail import Trail
-from schemas.trail import trail_schema
-from schemas.trail import trails_schema
+from server.db import db
+from server.models.trail import Trail
+from server.schemas.trail import trail_schema
+from server.schemas.trail import trails_schema
+from pprint import pprint
 
 
 def get_all_trails():
@@ -21,3 +22,17 @@ def create_trail(json_data):
 
     result = trail_schema.dump(trail)
     return result.data
+
+
+def get_trail_information(trail_id):
+    query = db.session.query(
+        Trail.created,
+        Trail.title,
+        Trail.description
+    ).filter(Trail.id == trail_id)
+    trail = query.one()
+    return {
+        'created': str(trail.created),
+        'title': trail.title,
+        'description': trail.description
+    }
